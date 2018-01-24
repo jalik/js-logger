@@ -73,7 +73,7 @@ import {Logger} from "jk-logger";
 const Logger = new Logger();
 
 // Activate logger on production environment only
-Logger.setActive(process.env === "PRODUCTION");
+Logger.setActive(process.env.NODE_ENV === "PRODUCTION");
 
 // And to check if the logger is active
 Logger.isActive();

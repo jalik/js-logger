@@ -1,0 +1,48 @@
+{
+  "name": "jk-logger",
+  "version": "1.0.0",
+  "description": "A flexible logger to log messages to anything you want.",
+  "license": "MIT",
+  "keywords": [
+    "debug",
+    "error",
+    "logging"
+  ],
+  "author": {
+    "name": "Karl STEIN",
+    "email": "karl.stein.pro@gmail.com",
+    "url": "https://github.com/jalik"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jalik/jk-logger.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jalik/jk-logger/issues"
+  },
+  "main": "dist/logger.js",
+  "scripts": {
+    "build": "./node_modules/.bin/gulp build",
+    "build:prod": "./node_modules/.bin/gulp prepublish",
+    "package": "./node_modules/.bin/webpack && ./node_modules/.bin/webpack -p",
+    "prepare": "npm run build:prod && npm test",
+    "prepublishOnly": "npm test",
+    "test": "jest",
+    "watch": "./node_modules/.bin/gulp watch"
+  },
+  "dependencies": {
+    "jk-observer": "^1.0.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.0",
+    "gulp-strip-comments": "^2.5.2",
+    "gulp-watch": "^5.0.0",
+    "jest": "^21.2.1",
+    "webpack": "^3.8.1"
+  }
+}

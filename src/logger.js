@@ -23,15 +23,23 @@
  */
 
 import Types from "./types";
+import Util from "./utils";
 import {Observer} from "jk-observer";
 
 export class Logger {
 
     constructor(options) {
-        this.options = options || {
+        this.options = Util.extend({
             active: true,
+            console: {
+                debug: true,
+                error: true,
+                info: true,
+                other: true,
+                warning: true
+            },
             displayContext: false
-        };
+        }, options);
 
         // Create observer
         this._observer = new Observer(this);
@@ -116,35 +124,49 @@ export class Logger {
         if (this.isActive()) {
             const args = [message];
 
+            // Display context in console
             if (typeof context !== "undefined" && this.options.displayContext === true) {
                 args.push(context);
             }
 
+            // Displays the message in the console
             switch (type) {
-
                 case Types.debug:
-                    console.debug.apply(this, args);
+                    if (this.options.console.debug === true) {
+                        console.debug.apply(this, args);
+                    }
                     break;
 
                 case Types.error:
-                    console.error.apply(this, args);
+                    if (this.options.console.error === true) {
+                        console.error.apply(this, args);
+                    }
                     break;
 
                 case Types.info:
-                    console.info.apply(this, args);
+                    if (this.options.console.info === true) {
+                        console.info.apply(this, args);
+                    }
                     break;
 
                 case Types.warning:
-                    console.warn.apply(this, args);
+                    if (this.options.console.warning === true) {
+                        console.warn.apply(this, args);
+                    }
                     break;
 
                 default:
-                    console.log.apply(this, args);
+                    if ((typeof this.options.console[type] === "boolean"
+                            && this.options.console[type] === true)
+                        || (typeof this.options.console[type] !== "boolean"
+                            && this.options.console.other === true)) {
+                        console.log.apply(this, args);
+                    }
             }
-
-            // Notify all listeners
-            this._observer.notify(type, ...[message, context]);
         }
+
+        // Notify all listeners
+        this._observer.notify(type, ...[message, context]);
     }
 
     /**

@@ -15,8 +15,23 @@ The first thing to do is to create a logger, it's deadly simple.
 ```js
 import {Logger} from "jk-logger";
 
-const Logger = new Logger();
+const Logger = new Logger({
+  // Activate the logger
+  active: true,
+  // Display message of given types in the console
+  console: {
+    debug: true,
+    error: true,
+    info: true,
+    other: true,
+    warning: true
+  },
+  // Display context in the console
+  displayContext: true
+});
 ```
+
+Note that `options` are available on each `Logger` instance via `Logger.options`.
 
 ## Logging types
 
@@ -60,7 +75,7 @@ Logger.info("Application started", {date: new Date()});
 Logger.warn("Disk usage is above 90%", {diskUsage: 92.6});
 
 // Logs a custom type message
-Logger.log("Plop", "test");
+Logger.log("Plop", "custom-type");
 ```
 
 ## Activating or deactivating a logger
@@ -100,6 +115,15 @@ Logger.error("Cannot contact DNS server", {ipAddress: "8.8.8.8"});
 ```
 
 ## Changelog
+
+### v1.0.1
+- Adds options to activate or deactivate console logging for a type of message
+- Adds option `Logger.options.console.debug = true`
+- Adds option `Logger.options.console.error = true`
+- Adds option `Logger.options.console.info = true`
+- Adds option `Logger.options.console.other = true`
+- Adds option `Logger.options.console.warning = true`
+- Adds option `Logger.options.displayContext = false`
 
 ### v1.0.0
 - First public release

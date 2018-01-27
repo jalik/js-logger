@@ -1,7 +1,7 @@
 {
   "name": "jk-logger",
   "version": "1.0.1",
-  "description": "A flexible logger to log messages to anything you want.",
+  "description": "Log messages to anywhere.",
   "license": "MIT",
   "keywords": [
     "debug",

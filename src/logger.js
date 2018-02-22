@@ -120,7 +120,7 @@ export class Logger {
      * @param type
      * @param context
      */
-    log(message, type = Types.info, context) {
+    log(message, type, context) {
         if (this.isActive()) {
             const args = [message];
 

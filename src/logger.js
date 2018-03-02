@@ -23,13 +23,13 @@
  */
 
 import Types from "./types";
-import Util from "./utils";
+import {extendRecursively} from "@jalik/extend";
 import {Observer} from "jk-observer";
 
 export class Logger {
 
     constructor(options) {
-        this.options = Util.extend({
+        this.options = extendRecursively({
             active: true,
             console: {
                 debug: true,

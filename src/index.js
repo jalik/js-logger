@@ -22,9 +22,9 @@
  * SOFTWARE.
  */
 
+import Observer from "@jalik/observer";
 import Types from "./types";
 import {extendRecursively} from "@jalik/extend";
-import {Observer} from "jk-observer";
 
 export class Logger {
 
@@ -204,3 +204,5 @@ export class Logger {
         return this.log(message, Types.warning, context);
     }
 }
+
+export default Logger;

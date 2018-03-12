@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
+import Logger from "../src/index";
 import Types from "../src/types";
-import {Logger} from "../src/logger";
 
 describe("Logger", () => {
 

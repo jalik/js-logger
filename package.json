@@ -1,7 +1,7 @@
 {
-  "name": "jk-logger",
-  "version": "1.0.1",
-  "description": "Log messages to anywhere.",
+  "name": "@jalik/logger",
+  "version": "1.0.2",
+  "description": "A logging utility to log messages to anywhere.",
   "license": "MIT",
   "keywords": [
     "debug",
@@ -20,7 +20,7 @@
   "bugs": {
     "url": "https://github.com/jalik/jk-logger/issues"
   },
-  "main": "dist/logger.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "./node_modules/.bin/gulp build",
     "build:prod": "./node_modules/.bin/gulp prepublish",
@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@jalik/extend": "^1.0.1",
-    "jk-observer": "^1.0.1"
+    "@jalik/observer": "^1.0.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

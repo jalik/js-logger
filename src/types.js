@@ -44,4 +44,4 @@ export default {
      * Warning
      */
     warning: "warning",
-};
+}

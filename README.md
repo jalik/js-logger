@@ -1,4 +1,4 @@
-# jk-logger
+# Logger
 
 A flexible logger to log messages to anything you want (console, file, database...), there's nothing more to say about it.
 
@@ -13,7 +13,7 @@ Logging is an important part of an application lifecycle, from development to pr
 The first thing to do is to create a logger, it's deadly simple.
 
 ```js
-import {Logger} from "jk-logger";
+import Logger from "@jalik/logger";
 
 const Logger = new Logger({
   // Activate the logger
@@ -44,7 +44,7 @@ As you can imagine, there are different types of logging, this is useful to dist
 You can access predefined logging types by importing them in your code.
 
 ```js
-import Types from "jk-logger/dist/types";
+    import Types from "@jalik/logger/dist/types";
 
 Types.debug;
 Types.error;
@@ -57,7 +57,7 @@ Types.warning;
 When you log a message, you can also provide an optional context as extra information, you have a dedicated method for each type of logging.
 
 ```js
-import {Logger} from "jk-logger";
+import Logger from "@jalik/logger";
 
 const Logger = new Logger();
 
@@ -83,7 +83,7 @@ Logger.log("Plop", "custom-type");
 By default a logger is activated, but you can deactivate it anytime you want by using the `setActive(Boolean)` method.
 
 ```js
-import {Logger} from "jk-logger";
+import Logger from "@jalik/logger";
 
 const Logger = new Logger();
 
@@ -99,8 +99,8 @@ Logger.isActive();
 The logger is flexible enough in the way that you can execute callbacks when an event occurs (debug, error, info, warning), so you could save logs to a database, a file or whatever you want.
 
 ```js
-import Types from "jk-logger/dist/types";
-import {Logger} from "jk-logger";
+import Types from "@jalik/logger/dist/types";
+import Logger from "@jalik/logger";
 
 const Logger = new Logger();
 
@@ -115,6 +115,9 @@ Logger.error("Cannot contact DNS server", {ipAddress: "8.8.8.8"});
 ```
 
 ## Changelog
+
+### v1.0.2
+- Exports `Logger` using ES6 default export
 
 ### v1.0.1
 - Adds options to activate or deactivate console logging for a type of message

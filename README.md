@@ -116,7 +116,7 @@ Logger.error("Cannot contact DNS server", {ipAddress: "8.8.8.8"});
 
 ## Changelog
 
-### v1.0.2
+### v1.0.3
 - Exports `Logger` using ES6 default export
 
 ### v1.0.1

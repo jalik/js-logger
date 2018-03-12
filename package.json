@@ -1,6 +1,6 @@
 {
   "name": "@jalik/logger",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A logging utility to log messages to anywhere.",
   "license": "MIT",
   "keywords": [
@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.3",
+    "babel-loader": "^7.1.4",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "gulp": "^3.9.1",

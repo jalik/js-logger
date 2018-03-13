@@ -27,7 +27,7 @@
     "package": "./node_modules/.bin/webpack && ./node_modules/.bin/webpack -p",
     "prepare": "npm run build:prod && npm test",
     "prepublishOnly": "npm test",
-    "test": "jest",
+    "test": "./node_modules/.bin/jest",
     "watch": "./node_modules/.bin/gulp watch"
   },
   "dependencies": {

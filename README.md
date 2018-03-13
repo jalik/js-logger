@@ -44,7 +44,7 @@ As you can imagine, there are different types of logging, this is useful to dist
 You can access predefined logging types by importing them in your code.
 
 ```js
-    import Types from "@jalik/logger/dist/types";
+import Types from "@jalik/logger/dist/types";
 
 Types.debug;
 Types.error;

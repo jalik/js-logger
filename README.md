@@ -116,20 +116,7 @@ Logger.error("Cannot contact DNS server", {ipAddress: "8.8.8.8"});
 
 ## Changelog
 
-### v1.0.3
-- Exports `Logger` using ES6 default export
-
-### v1.0.1
-- Adds options to activate or deactivate console logging for a type of message
-- Adds option `Logger.options.console.debug = true`
-- Adds option `Logger.options.console.error = true`
-- Adds option `Logger.options.console.info = true`
-- Adds option `Logger.options.console.other = true`
-- Adds option `Logger.options.console.warning = true`
-- Adds option `Logger.options.displayContext = false`
-
-### v1.0.0
-- First public release
+History of releases is in the [changelog](./CHANGELOG.md).
 
 ## License
 

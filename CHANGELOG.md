@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.0.4
+- Adds constructor option `displayName: Boolean`
+- Adds constructor option `name: String`
+- Adds method `Logger.getName()`
+
 ## v1.0.3
 - Exports `Logger` using ES6 default export
 

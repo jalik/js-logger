@@ -29,6 +29,7 @@ import Types from './types';
 
 class Logger {
   constructor(options) {
+    // Set default options
     this.options = extendRecursively({
       active: true,
       console: {
@@ -39,6 +40,8 @@ class Logger {
         warning: true,
       },
       displayContext: false,
+      displayName: false,
+      name: null,
     }, options);
 
     // Create observer
@@ -50,28 +53,36 @@ class Logger {
     }
 
     // Add polyfill methods to the console object
-    // eslint-disable-next-line
+    // eslint-disable-next-line no-console
     if (typeof console.log === 'function') {
-      // eslint-disable-next-line
+      // eslint-disable-next-line no-console
       if (typeof console.debug !== 'function') {
-        // eslint-disable-next-line
+        // eslint-disable-next-line no-console
         console.debug = console.log;
       }
-      // eslint-disable-next-line
+      // eslint-disable-next-line no-console
       if (typeof console.error !== 'function') {
-        // eslint-disable-next-line
+        // eslint-disable-next-line no-console
         console.error = console.log;
       }
-      // eslint-disable-next-line
+      // eslint-disable-next-line no-console
       if (typeof console.info !== 'function') {
-        // eslint-disable-next-line
+        // eslint-disable-next-line no-console
         console.info = console.log;
       }
-      // eslint-disable-next-line
+      // eslint-disable-next-line no-console
       if (typeof console.warn !== 'function') {
-        // eslint-disable-next-line
+        // eslint-disable-next-line no-console
         console.warn = console.log;
       }
+    }
+
+    // Check logger name
+    if (typeof this.options.name === 'undefined' || this.options.name === null) {
+      // Generate a name
+      this.name = `logger-${Date.now()}`;
+    } else {
+      this.name = this.options.name;
     }
   }
 
@@ -90,27 +101,31 @@ class Logger {
    * @param context
    */
   error(messageOrError, context) {
-    // eslint-disable-next-line
     const ctx = context || {};
     let msg = messageOrError;
 
     if (messageOrError instanceof Error) {
-      // eslint-disable-next-line
       ctx.error = {};
 
       const attributes = ['name', 'message', 'reason', 'stack', 'type'];
 
       for (let i = 0; i < attributes.length; i += 1) {
         if (attributes[i] in messageOrError) {
-          // eslint-disable-next-line
           ctx.error[attributes[i]] = messageOrError[attributes[i]];
         }
       }
-      // eslint-disable-next-line
       const { message } = messageOrError;
       msg = message;
     }
     return this.log(msg, Types.error, ctx);
+  }
+
+  /**
+   * Returns the logger name
+   * @return {string|null}
+   */
+  getName() {
+    return this.name;
   }
 
   /**
@@ -138,7 +153,15 @@ class Logger {
    */
   log(message, type, context) {
     if (this.isActive()) {
-      const args = [message];
+      const args = [];
+
+      // Display logger name in console
+      if (this.options.displayName === true) {
+        args.push(this.name);
+      }
+
+      // Display message in console
+      args.push(message);
 
       // Display context in console
       if (typeof context !== 'undefined' && this.options.displayContext === true) {
@@ -149,24 +172,28 @@ class Logger {
       switch (type) {
         case Types.debug:
           if (this.options.console.debug === true) {
+            // eslint-disable-next-line no-console
             console.log.apply(this, args);
           }
           break;
 
         case Types.error:
           if (this.options.console.error === true) {
+            // eslint-disable-next-line no-console
             console.error.apply(this, args);
           }
           break;
 
         case Types.info:
           if (this.options.console.info === true) {
+            // eslint-disable-next-line no-console
             console.info.apply(this, args);
           }
           break;
 
         case Types.warning:
           if (this.options.console.warning === true) {
+            // eslint-disable-next-line no-console
             console.warn.apply(this, args);
           }
           break;
@@ -176,6 +203,7 @@ class Logger {
             && this.options.console[type] === true)
             || (typeof this.options.console[type] !== 'boolean'
               && this.options.console.other === true)) {
+            // eslint-disable-next-line no-console
             console.log.apply(this, args);
           }
       }

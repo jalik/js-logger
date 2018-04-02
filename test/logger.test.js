@@ -32,6 +32,21 @@ describe('Logger', () => {
   });
 });
 
+describe('new Logger({name: "main"})', () => {
+  it('should create a logger with the name "main"', () => {
+    const logger = new Logger({ name: 'main' });
+    expect(logger.getName()).toEqual('main');
+  });
+});
+
+describe('new Logger({name: null})', () => {
+  it('should create a logger with a generated name', () => {
+    const logger = new Logger({ name: null });
+    expect(typeof logger.getName()).toEqual('string');
+    expect(logger.getName().length > 0).toEqual(true);
+  });
+});
+
 describe('new Logger({active: true})', () => {
   it('should create an active logger', () => {
     const logger = new Logger({ active: true });

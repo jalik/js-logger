@@ -27,7 +27,11 @@ const Logger = new Logger({
     warning: true
   },
   // Display context in the console
-  displayContext: true
+  displayContext: false,
+  // Display logger name in the console
+  displayMessage: false,
+  // Give a name to this logger
+  name: 'main'
 });
 ```
 

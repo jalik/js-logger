@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.0.5
+- Updates dependencies
+
 ## v1.0.4
 - Adds constructor option `displayName: Boolean`
 - Adds constructor option `name: String`

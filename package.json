@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@jalik/extend": "^1.0.2",
-    "@jalik/observer": "^1.0.2"
+    "@jalik/observer": "^1.0.3"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

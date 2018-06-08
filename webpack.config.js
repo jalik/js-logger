@@ -36,7 +36,7 @@ const paths = {
 
 module.exports = {
   entry: {
-    bundle: path.join(paths.src, 'index.js'),
+    bundle: path.join(paths.src, 'logger.js'),
   },
   module: {
     rules: [

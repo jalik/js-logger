@@ -4,18 +4,18 @@ A flexible logger to log messages to anything you want (console, file, database.
 
 ## Introduction
 
-Logging is an important part of an application lifecycle, from development to production, we always need to log messages for debugging or tracing errors and warnings.
+Logging is an important part of an application lifecycle, from development to production, we always need to log messages for debugging or tracing errors and warnings, this lib will hep you taking control of logging in your apps.
 
-**This library is tested with unit tests.**
+**This library has 23 unit tests.**
 
 ## Creating a logger
 
 The first thing to do is to create a logger, it's deadly simple.
 
 ```js
-import Logger from "@jalik/logger";
+import Logger from '@jalik/logger';
 
-const Logger = new Logger({
+const logger = new Logger({
   // Activate the logger
   active: true,
   // Display message of given types in the console
@@ -35,25 +35,27 @@ const Logger = new Logger({
 });
 ```
 
-Note that `options` are available on each `Logger` instance via `Logger.options`.
+Note that after creating the logger, you can still change the options via the public attribute 
+`options`, like `logger.options.console.debug = false`.
 
 ## Logging types
 
-As you can imagine, there are different types of logging, this is useful to distinguish messages, so below are these types :
+Instead of levels, this lib refers to types of logging, this is useful to distinguish and filter 
+messages, there are 4 well known types of logging :
 - debug : only used for debugging
 - error : only used for errors and exceptions
 - info : only used to display informative messages
 - warning : only used to display warnings
 
-You can access predefined logging types by importing them in your code.
+You can get the string value of each types by importing the types list.
 
 ```js
-import Types from "@jalik/logger/dist/types";
+import Types from '@jalik/logger/dist/types';
 
-Types.debug;
-Types.error;
-Types.info;
-Types.warning;
+Types.debug;   // used by console.debug()
+Types.error;   // used by console.error()
+Types.info;    // used by console.info()
+Types.warning; // used by console.warn()
 ```
 
 ## Logging messages
@@ -61,25 +63,30 @@ Types.warning;
 When you log a message, you can also provide an optional context as extra information, you have a dedicated method for each type of logging.
 
 ```js
-import Logger from "@jalik/logger";
+import Logger from '@jalik/logger';
 
-const Logger = new Logger();
+const logger = new Logger();
 
 // Logs a debug message
-Logger.debug("user json", {name: "karl"});
+// Note: you can use string templates available since ES6
+// to have dynamic logs.
+const user = {name: 'karl'};
+logger.debug(`user logged "${user.name}"`, user);
 
 // Logs an error message
-Logger.error("Forbidden", {error: new Error("forbidden")});
-Logger.error(new Error("forbidden"));
+logger.error('Forbidden', {error: new Error('forbidden')});
+logger.error(new Error('forbidden'));
 
 // Logs an info message
-Logger.info("Application started", {date: new Date()});
+logger.info('Application started', {date: new Date()});
 
 // Logs a warning message
-Logger.warn("Disk usage is above 90%", {diskUsage: 92.6});
+logger.warn('Disk usage is above 90%', {diskUsage: 92.6});
 
 // Logs a custom type message
-Logger.log("Plop", "custom-type");
+const ipAddress = '6.6.6.6';
+logger.log(`The IP address ${ipAddress} has failed to login 3 times in one minute`, 'suspicious',
+ {ipAddress});
 ```
 
 ## Activating or deactivating a logger
@@ -87,15 +94,15 @@ Logger.log("Plop", "custom-type");
 By default a logger is activated, but you can deactivate it anytime you want by using the `setActive(Boolean)` method.
 
 ```js
-import Logger from "@jalik/logger";
+import Logger from '@jalik/logger';
 
-const Logger = new Logger();
+const logger = new Logger();
 
 // Activate logger on production environment only
-Logger.setActive(process.env.NODE_ENV === "PRODUCTION");
+logger.setActive(process.env.NODE_ENV === 'PRODUCTION');
 
 // And to check if the logger is active
-Logger.isActive();
+logger.isActive();
 ```
 
 ## Listening events
@@ -103,24 +110,24 @@ Logger.isActive();
 The logger is flexible enough in the way that you can execute callbacks when an event occurs (debug, error, info, warning), so you could save logs to a database, a file or whatever you want.
 
 ```js
-import Types from "@jalik/logger/dist/types";
-import Logger from "@jalik/logger";
+import Types from '@jalik/logger/dist/types';
+import Logger from '@jalik/logger';
 
-const Logger = new Logger();
+const logger = new Logger();
 
 // With this event listener, you can do something when an error happens
-Logger.on(Types.error, (message, context) => {
+logger.on(Types.error, (message, context) => {
     // do whatever you want here...
     // save error to database, send an email...
 });
 
 // This will trigger the listener defined above
-Logger.error("Cannot contact DNS server", {ipAddress: "8.8.8.8"});
+logger.error('Cannot contact DNS server', {ipAddress: '8.8.8.8'});
 ```
 
 ## Changelog
 
-History of releases is in the [changelog](./CHANGELOG.md).
+History of releases is in the [changelog](./CHANGELOG.md) on github.
 
 ## License
 

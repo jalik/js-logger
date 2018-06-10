@@ -1,5 +1,13 @@
 # Changelog
 
+## v2.0.0
+- **BREAKING:** Method `Logger.on(String, Function)` has changed to improve ease of use. Before you had to pass 
+`debug`, `error`, `info` or `warning` as the first string argument, now use the `log` 
+ event instead. Also in the callback, the `type` of log is inserted as the second argument after `message`, thus `context` is now the third argument.
+  - BEFORE: `Logger.on('error', (message, context) => {})`
+  - NOW: `Logger.on('log', (message, type, context) => {})`
+- Fixes code examples in README
+
 ## v1.0.5
 - Updates dependencies
 

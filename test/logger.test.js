@@ -67,7 +67,7 @@ describe('Logger.debug(String, Object)', () => {
     const msg = 'Hello World';
     const logMessage = `msg = ${msg}`;
     const logger = new Logger({ active: true });
-    logger.on(Types.debug, (message) => {
+    logger.on('log', (message) => {
       text = message;
     });
     logger.debug(logMessage, { msg });
@@ -80,7 +80,7 @@ describe('Logger.error(String, Object)', () => {
     let text = null;
     const error = new Error('forbidden');
     const logger = new Logger({ active: true });
-    logger.on(Types.error, (message) => {
+    logger.on('log', (message) => {
       text = message;
     });
     logger.error(error.message, { error });
@@ -93,7 +93,7 @@ describe('Logger.error(Error, Object)', () => {
     let text = null;
     const error = new Error('forbidden');
     const logger = new Logger({ active: true });
-    logger.on(Types.error, (message) => {
+    logger.on('log', (message) => {
       text = message;
     });
     logger.error(error, { error });
@@ -106,7 +106,7 @@ describe('Logger.info(String, Object)', () => {
     let text = null;
     const logMessage = 'hello';
     const logger = new Logger({ active: true });
-    logger.on(Types.info, (message) => {
+    logger.on('log', (message) => {
       text = message;
     });
     logger.info(logMessage);
@@ -119,7 +119,7 @@ describe('Logger.info(String, Object)', () => {
     let text = null;
     const logMessage = 'warning';
     const logger = new Logger({ active: true });
-    logger.on(Types.warning, (message) => {
+    logger.on('log', (message) => {
       text = message;
     });
     logger.warn(logMessage);
@@ -144,17 +144,30 @@ describe('Logger.log(String, String, Object)', () => {
     let text = null;
     const msg = 'message';
     const logger = new Logger({ active: true });
-    logger.on(Types.info, (message) => {
+    logger.on('log', (message) => {
       text = message;
     });
     logger.log(msg, Types.info, { msg });
     expect(text).toEqual(msg);
   });
 
-  it('should log a message with context', () => {
+  it('should log a message with a type', () => {
+    let context = null;
+    let type = null;
+    const logger = new Logger({ active: true });
+    logger.on('log', (message, logType, ctx) => {
+      context = ctx;
+      type = logType;
+    });
+    logger.log('message', Types.info, { a: 1 });
+    expect(context).toEqual({ a: 1 });
+    expect(type).toEqual(Types.info);
+  });
+
+  it('should log a message with a context', () => {
     let context = null;
     const logger = new Logger({ active: true });
-    logger.on(Types.info, (message, ctx) => {
+    logger.on('log', (message, type, ctx) => {
       context = ctx;
     });
     logger.log('message', Types.info, { a: 1 });
@@ -168,7 +181,7 @@ describe('Logger.on(String, Function)', () => {
       let changed = false;
       const logger = new Logger();
 
-      logger.on(Types.debug, () => {
+      logger.on('log', () => {
         changed = true;
       });
       logger.debug('this is a debug message');
@@ -181,7 +194,7 @@ describe('Logger.on(String, Function)', () => {
       let changed = false;
       const logger = new Logger();
 
-      logger.on(Types.error, () => {
+      logger.on('log', () => {
         changed = true;
       });
       logger.error('this is an error message');
@@ -194,7 +207,7 @@ describe('Logger.on(String, Function)', () => {
       let changed = false;
       const logger = new Logger();
 
-      logger.on(Types.info, () => {
+      logger.on('log', () => {
         changed = true;
       });
       logger.info('this is an information message');
@@ -207,7 +220,7 @@ describe('Logger.on(String, Function)', () => {
       let changed = false;
       const logger = new Logger();
 
-      logger.on(Types.warning, () => {
+      logger.on('log', () => {
         changed = true;
       });
       logger.warn('this is a warning message');

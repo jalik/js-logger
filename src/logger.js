@@ -210,7 +210,7 @@ class Logger {
     }
 
     // Notify all listeners
-    this.observer.notify(type, ...[message, context]);
+    this.observer.notify('log', ...[message, type, context]);
   }
 
   /**

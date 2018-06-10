@@ -1,5 +1,8 @@
 # Changelog
 
+## v2.0.1
+- Fixes example of `Logger.on(String, Function)` in README
+
 ## v2.0.0
 - **BREAKING:** Method `Logger.on(String, Function)` has changed to improve ease of use. Before you had to pass 
 `debug`, `error`, `info` or `warning` as the first string argument, now use the `log` 

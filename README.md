@@ -75,18 +75,22 @@ logger.debug(`user logged "${user.name}"`, user);
 
 // Logs an error message
 logger.error('Forbidden', {error: new Error('forbidden')});
+// You can directly pass an Error object
 logger.error(new Error('forbidden'));
 
 // Logs an info message
-logger.info('Application started', {date: new Date()});
+logger.info('Application started', {
+  date: new Date()
+});
 
 // Logs a warning message
-logger.warn('Disk usage is above 90%', {diskUsage: 92.6});
+logger.warn('Disk usage is above 90%', {
+  diskUsage: 92.6
+});
 
 // Logs a custom type message
 const ipAddress = '6.6.6.6';
-logger.log(`The IP address ${ipAddress} has failed to login 3 times in one minute`, 'suspicious',
- {ipAddress});
+logger.log(`The IP address ${ipAddress} has failed to login 3 times`, 'suspicious', {ipAddress});
 ```
 
 ## Activating or deactivating a logger
@@ -116,13 +120,17 @@ import Logger from '@jalik/logger';
 const logger = new Logger();
 
 // With this event listener, you can do something when an error happens
-logger.on(Types.error, (message, context) => {
+logger.on('log', (message, type, context) => {
+  if (type === Types.error) {
     // do whatever you want here...
     // save error to database, send an email...
+  }
 });
 
 // This will trigger the listener defined above
-logger.error('Cannot contact DNS server', {ipAddress: '8.8.8.8'});
+logger.error('Cannot contact DNS server', {
+  ipAddress: '8.8.8.8'
+});
 ```
 
 ## Changelog

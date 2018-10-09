@@ -1,10 +1,14 @@
 # Changelog
 
+## CURRENT
+- Adds method `Logger.clone(name: String)`
+- Removes unused return in methods `Logger[debug,error,info,warn]()`
+
 ## v2.0.1
-- Fixes example of `Logger.on(String, Function)` in README
+- Fixes example of `Logger.on(event: String, listener: Function)` in README
 
 ## v2.0.0
-- **BREAKING:** Method `Logger.on(String, Function)` has changed to improve ease of use. Before you had to pass 
+- **BREAKING:** Method `Logger.on(event: String, listener: Function)` has changed to improve ease of use. Before you had to pass 
 `debug`, `error`, `info` or `warning` as the first string argument, now use the `log` 
  event instead. Also in the callback, the `type` of log is inserted as the second argument after `message`, thus `context` is now the third argument.
   - BEFORE: `Logger.on('error', (message, context) => {})`

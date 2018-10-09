@@ -87,12 +87,21 @@ class Logger {
   }
 
   /**
+   * Returns a clone of the current logger with a different name.
+   * @param name
+   * @return {Logger}
+   */
+  clone(name) {
+    return new Logger(Object.assign({}, this.options, { name }));
+  }
+
+  /**
    * Logs a debug message
    * @param message
    * @param context
    */
   debug(message, context) {
-    return this.log(message, Types.debug, context);
+    this.log(message, Types.debug, context);
   }
 
   /**
@@ -117,7 +126,7 @@ class Logger {
       const { message } = messageOrError;
       msg = message;
     }
-    return this.log(msg, Types.error, ctx);
+    this.log(msg, Types.error, ctx);
   }
 
   /**
@@ -134,7 +143,7 @@ class Logger {
    * @param context
    */
   info(message, context) {
-    return this.log(message, Types.info, context);
+    this.log(message, Types.info, context);
   }
 
   /**
@@ -157,7 +166,7 @@ class Logger {
 
       // Display logger name in console
       if (this.options.displayName === true) {
-        args.push(this.name);
+        args.push(`${this.name}:`);
       }
 
       // Display message in console
@@ -216,19 +225,19 @@ class Logger {
   /**
    * Removes an event listener
    * @param event
-   * @param callback
+   * @param listener
    */
-  off(event, callback) {
-    this.observer.detach(event, callback);
+  off(event, listener) {
+    this.observer.detach(event, listener);
   }
 
   /**
    * Adds an event listener
    * @param event
-   * @param callback
+   * @param listener
    */
-  on(event, callback) {
-    this.observer.attach(event, callback);
+  on(event, listener) {
+    this.observer.attach(event, listener);
   }
 
   /**
@@ -245,7 +254,7 @@ class Logger {
    * @param context
    */
   warn(message, context) {
-    return this.log(message, Types.warning, context);
+    this.log(message, Types.warning, context);
   }
 }
 

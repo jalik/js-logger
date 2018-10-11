@@ -1,8 +1,13 @@
 # Changelog
 
-## CURRENT
+## v2.1.0
+- Adds `:` after the logger name (ex: `ClassLogger: test`)
 - Adds method `Logger.clone(name: String)`
-- Removes unused return in methods `Logger[debug,error,info,warn]()`
+- Removes useless `return` instruction in the following methods:
+  - `Logger.debug()`
+  - `Logger.error()`
+  - `Logger.info()`
+  - `Logger.warn()`
 
 ## v2.0.1
 - Fixes example of `Logger.on(event: String, listener: Function)` in README

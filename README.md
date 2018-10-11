@@ -133,6 +133,20 @@ logger.error('Cannot contact DNS server', {
 });
 ```
 
+## Cloning a logger
+
+It can be useful to clone an existing logger, thus reusing the same configuration by calling the `clone()` method on a logger.
+
+```js
+import Logger from '@jalik/logger';
+
+const loggerA = new Logger({name:'A', displayContext: true});
+const loggerB = loggerA.clone('B');
+
+// The logger B will display the given context since it has been enabled in the logger A.
+loggerB.debug('printed now', {date: new Date()});
+```
+
 ## Changelog
 
 History of releases is in the [changelog](./CHANGELOG.md) on github.

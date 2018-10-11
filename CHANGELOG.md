@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.1.1
+- Updates devDependencies
+- Changes package's repository URL
+
 ## v2.1.0
 - Adds `:` after the logger name (ex: `ClassLogger: test`)
 - Adds method `Logger.clone(name: String)`

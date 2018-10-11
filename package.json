@@ -16,10 +16,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jalik/jk-logger.git"
+    "url": "https://github.com/jalik/js-logger.git"
   },
   "bugs": {
-    "url": "https://github.com/jalik/jk-logger/issues"
+    "url": "https://github.com/jalik/js-logger/issues"
   },
   "main": "dist/logger.js",
   "scripts": {
@@ -32,8 +32,8 @@
     "watch": "npx gulp watch"
   },
   "dependencies": {
-    "@jalik/extend": "^1.0.2",
-    "@jalik/observer": "^1.0.3"
+    "@jalik/extend": "^1.0.3",
+    "@jalik/observer": "^1.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",

@@ -1,4 +1,4 @@
-# Logger
+# @jalik/logger
 
 A flexible logger to log messages to anything you want (console, file, database...), there's nothing more to say about it.
 

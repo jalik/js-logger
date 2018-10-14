@@ -23,14 +23,14 @@
  *
  */
 
-import { extendRecursively } from '@jalik/extend';
+import deepExtend from '@jalik/deep-extend';
 import Observer from '@jalik/observer';
 import Types from './types';
 
 class Logger {
   constructor(options) {
     // Set default options
-    this.options = extendRecursively({
+    this.options = deepExtend({
       active: true,
       console: {
         debug: true,

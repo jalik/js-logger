@@ -246,3 +246,13 @@ describe('Logger.setActive(Boolean)', () => {
     });
   });
 });
+
+describe('new Logger(options)', () => {
+  it('should merge options recursively', () => {
+    const logger = new Logger({ active: true, console: { debug: false } });
+    expect(logger.options.console.debug).toEqual(false);
+    expect(logger.options.console.error).toEqual(true);
+    expect(logger.options.console.info).toEqual(true);
+    expect(logger.options.console.warning).toEqual(true);
+  });
+});

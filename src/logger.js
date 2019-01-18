@@ -58,22 +58,22 @@ class Logger {
       // eslint-disable-next-line no-console
       if (typeof console.debug !== 'function') {
         // eslint-disable-next-line no-console
-        console.debug = console.log;
+        console.debug = console.log.bind(console);
       }
       // eslint-disable-next-line no-console
       if (typeof console.error !== 'function') {
         // eslint-disable-next-line no-console
-        console.error = console.log;
+        console.error = console.log.bind(console);
       }
       // eslint-disable-next-line no-console
       if (typeof console.info !== 'function') {
         // eslint-disable-next-line no-console
-        console.info = console.log;
+        console.info = console.log.bind(console);
       }
       // eslint-disable-next-line no-console
       if (typeof console.warn !== 'function') {
         // eslint-disable-next-line no-console
-        console.warn = console.log;
+        console.warn = console.log.bind(console);
       }
     }
 
@@ -182,28 +182,28 @@ class Logger {
         case Types.debug:
           if (this.options.console.debug === true) {
             // eslint-disable-next-line no-console
-            console.log.apply(this, args);
+            console.log(...args);
           }
           break;
 
         case Types.error:
           if (this.options.console.error === true) {
             // eslint-disable-next-line no-console
-            console.error.apply(this, args);
+            console.error(...args);
           }
           break;
 
         case Types.info:
           if (this.options.console.info === true) {
             // eslint-disable-next-line no-console
-            console.info.apply(this, args);
+            console.info(...args);
           }
           break;
 
         case Types.warning:
           if (this.options.console.warning === true) {
             // eslint-disable-next-line no-console
-            console.warn.apply(this, args);
+            console.warn(...args);
           }
           break;
 
@@ -213,7 +213,7 @@ class Logger {
             || (typeof this.options.console[type] !== 'boolean'
               && this.options.console.other === true)) {
             // eslint-disable-next-line no-console
-            console.log.apply(this, args);
+            console.log(...args);
           }
       }
     }

@@ -1,5 +1,8 @@
 # Changelog
 
+## v2.1.4
+- Fixes compatibility error `'log' called on an object that does not implement interface Console`
+
 ## v2.1.3
 - Updates dependencies
 

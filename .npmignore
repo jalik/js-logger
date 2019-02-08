@@ -15,8 +15,5 @@ gulpfile.js
 # npm packages
 node_modules/
 
-# Source files
-/src/
-
 # Test files
 /test/

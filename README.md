@@ -6,7 +6,7 @@ A flexible logger to log messages to anything you want (console, file, database.
 
 Logging is an important part of an application lifecycle, from development to production, we always need to log messages for debugging or tracing errors and warnings, this lib will hep you taking control of logging in your apps.
 
-**This library has 23 unit tests.**
+**This library is unit tested.**
 
 ## Creating a logger
 
@@ -29,7 +29,7 @@ const logger = new Logger({
   // Display context in the console
   displayContext: false,
   // Display logger name in the console
-  displayMessage: false,
+  displayName: true,
   // Give a name to this logger
   name: 'main'
 });

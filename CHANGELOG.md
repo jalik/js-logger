@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.2.0
+- Lib available in ES6+ syntax (see `src` folder) to enable auto-completion in IDEs
+- Fixes code in README
+
 ## v2.1.4
 - Fixes compatibility error `'log' called on an object that does not implement interface Console`
 

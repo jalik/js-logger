@@ -1,12 +1,16 @@
 # @jalik/logger
+![GitHub package.json version](https://img.shields.io/github/package-json/v/jalik/js-logger.svg)
+[![Build Status](https://travis-ci.com/jalik/js-logger.svg?branch=master)](https://travis-ci.com/jalik/js-logger)
+![GitHub](https://img.shields.io/github/license/jalik/js-logger.svg)
+![GitHub last commit](https://img.shields.io/github/last-commit/jalik/js-logger.svg)
+[![GitHub issues](https://img.shields.io/github/issues/jalik/js-logger.svg)](https://github.com/jalik/js-logger/issues)
+![npm](https://img.shields.io/npm/dt/@jalik/logger.svg)
 
 A flexible logger to log messages to anything you want (console, file, database...), there's nothing more to say about it.
 
 ## Introduction
 
 Logging is an important part of an application lifecycle, from development to production, we always need to log messages for debugging or tracing errors and warnings, this lib will hep you taking control of logging in your apps.
-
-**This library is unit tested.**
 
 ## Creating a logger
 

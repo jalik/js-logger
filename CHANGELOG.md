@@ -1,22 +1,25 @@
 # Changelog
 
+## v2.2.6
+- Upgrades dependencies
+
 ## v2.2.5
-- Updates dependencies
+- Upgrades dependencies
 
 ## v2.2.4
-- Updates dependencies
+- Upgrades dependencies
 
 ## v2.2.3
-- Updates dependencies
+- Upgrades dependencies
 
 ## v2.2.2
-- Updates dependencies
+- Upgrades dependencies
 
 ## v2.2.1
-- Updates dependencies
+- Upgrades dependencies
 
 ## v2.2.0
-- Updates dependencies
+- Upgrades dependencies
 - Lib available in ES6+ syntax (see `src` folder) to enable auto-completion in IDEs
 - Fixes code in README
 
@@ -24,13 +27,13 @@
 - Fixes compatibility error `'log' called on an object that does not implement interface Console`
 
 ## v2.1.3
-- Updates dependencies
+- Upgrades dependencies
 
 ## v2.1.2
-- Updates dependencies
+- Upgrades dependencies
 
 ## v2.1.1
-- Updates devDependencies
+- Upgrades devDependencies
 - Changes package's repository URL
 
 ## v2.1.0
@@ -54,7 +57,7 @@
 - Fixes code examples in README
 
 ## v1.0.5
-- Updates dependencies
+- Upgrades dependencies
 
 ## v1.0.4
 - Adds constructor option `displayName: Boolean`

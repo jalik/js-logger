@@ -3,7 +3,7 @@
  * Copyright (c) 2020 Karl STEIN
  */
 
-import Logger from '../src/logger';
+import Logger from '../src/Logger';
 import Types from '../src/types';
 
 describe('Logger', () => {

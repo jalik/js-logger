@@ -21,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/jalik/js-logger/issues"
   },
-  "main": "dist/logger.js",
+  "main": "dist/Logger.js",
   "scripts": {
     "build": "babel src -d dist",
     "clean": "rimraf dist",

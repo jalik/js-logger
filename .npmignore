@@ -6,12 +6,11 @@
 /benchmarks/
 
 # Tools settings
-.babelrc
 .eslintignore
 .eslintrc.json
 .gitignore
 .travis.yml
-babel.config.js
+babel.config.json
 gulpfile.js
 
 # npm packages

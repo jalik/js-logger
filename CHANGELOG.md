@@ -1,25 +1,29 @@
 # Changelog
 
+## v2.2.7
+- Renamed logger.js to Logger.js
+- Upgraded dependencies
+
 ## v2.2.6
-- Upgrades dependencies
+- Upgraded dependencies
 
 ## v2.2.5
-- Upgrades dependencies
+- Upgraded dependencies
 
 ## v2.2.4
-- Upgrades dependencies
+- Upgraded dependencies
 
 ## v2.2.3
-- Upgrades dependencies
+- Upgraded dependencies
 
 ## v2.2.2
-- Upgrades dependencies
+- Upgraded dependencies
 
 ## v2.2.1
-- Upgrades dependencies
+- Upgraded dependencies
 
 ## v2.2.0
-- Upgrades dependencies
+- Upgraded dependencies
 - Lib available in ES6+ syntax (see `src` folder) to enable auto-completion in IDEs
 - Fixes code in README
 
@@ -27,13 +31,13 @@
 - Fixes compatibility error `'log' called on an object that does not implement interface Console`
 
 ## v2.1.3
-- Upgrades dependencies
+- Upgraded dependencies
 
 ## v2.1.2
-- Upgrades dependencies
+- Upgraded dependencies
 
 ## v2.1.1
-- Upgrades devDependencies
+- Upgraded devDependencies
 - Changes package's repository URL
 
 ## v2.1.0
@@ -57,7 +61,7 @@
 - Fixes code examples in README
 
 ## v1.0.5
-- Upgrades dependencies
+- Upgraded dependencies
 
 ## v1.0.4
 - Adds constructor option `displayName: Boolean`

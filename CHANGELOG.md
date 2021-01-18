@@ -1,5 +1,8 @@
 # Changelog
 
+## v2.2.8
+- Upgraded dependencies
+
 ## v2.2.7
 - Added `esnext` and `sideEffects` in package.json
 - Renamed logger.js to Logger.js

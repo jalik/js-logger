@@ -35,8 +35,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/runtime": "^7.14.0",
-    "@jalik/observer": "^1.1.11"
+    "@babel/runtime": "^7.14.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.3",

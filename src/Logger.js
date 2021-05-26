@@ -1,6 +1,6 @@
 /*
  * The MIT License (MIT)
- * Copyright (c) 2020 Karl STEIN
+ * Copyright (c) 2021 Karl STEIN
  */
 
 import {
@@ -9,38 +9,31 @@ import {
   INFO,
   WARN,
 } from './levels';
+import consoleOutput from './outputs/consoleOutput';
 
 const defaultOptions = {
   active: true,
-  console: {
-    DEBUG: true,
-    ERROR: true,
-    INFO: true,
-    WARN: true,
-  },
-  name: null,
-  displayContext: false,
-  displayName: false,
+  name: undefined,
+  outputs: [consoleOutput()],
 };
 
 class Logger {
   constructor(options = {}) {
-    // Set default options
+    // Use default options.
     const opts = { ...defaultOptions, ...options };
 
     // Set logger status.
     this.active = opts.active === true;
 
-    // Set details to show.
-    this.console = opts.console;
-    this.displayContext = opts.displayContext;
-    this.displayName = opts.displayName;
-
     // Set logger name.
     this.name = opts.name == null ? `logger_${Date.now()}` : String(opts.name);
 
-    // Create observer.
-    this.observer = new Observer(this);
+    // Set outputs.
+    this.outputs = [].concat(opts.outputs || []);
+
+    if (typeof this.outputs !== 'object' || !(this.outputs instanceof Array) || this.outputs.length === 0) {
+      throw new Error('Logger outputs cannot be empty.');
+    }
   }
 
   /**
@@ -48,7 +41,7 @@ class Logger {
    * @param {string} message
    * @param context
    */
-  debug(message, context) {
+  debug(message, context = undefined) {
     this.log(DEBUG, message, context);
   }
 
@@ -57,7 +50,7 @@ class Logger {
    * @param {string|Error} messageOrError
    * @param context
    */
-  error(messageOrError, context) {
+  error(messageOrError, context = undefined) {
     const ctx = context || {};
     let msg = messageOrError;
 
@@ -86,16 +79,16 @@ class Logger {
   }
 
   /**
-   * Logs an information message.
+   * Logs an informational message.
    * @param {string} message
    * @param context
    */
-  info(message, context) {
+  info(message, context = undefined) {
     this.log(INFO, message, context);
   }
 
   /**
-   * Checks if the logger is active.
+   * Checks if the logging is active.
    * @return {boolean}
    */
   isActive() {
@@ -108,78 +101,29 @@ class Logger {
    * @param {string} message
    * @param context
    */
-  log(level, message, context) {
+  log(level, message, context = undefined) {
     // Abort if logger is not active.
     if (!this.isActive()) {
       return;
     }
-    const args = [];
 
-    // Display logger name in console
-    if (this.displayName === true) {
-      args.push(`${this.name}:`);
-    }
+    // Prepare log event.
+    const event = {
+      context,
+      level,
+      logger: this.name,
+      message,
+      timestamp: Date.now(),
+    };
 
-    // Display message in console
-    args.push(message);
-
-    // Display context in console
-    if (typeof context !== 'undefined' && this.displayContext === true) {
-      args.push(context);
-    }
-
-    // Displays the message in the console
-    switch (level) {
-      case DEBUG:
-        if (this.console.DEBUG === true) {
-          console.log(...args);
-        }
-        break;
-      case ERROR:
-        if (this.console.ERROR === true) {
-          console.error(...args);
-        }
-        break;
-      case INFO:
-        if (this.console.INFO === true) {
-          console.info(...args);
-        }
-        break;
-      case WARN:
-        if (this.console.WARN === true) {
-          console.warn(...args);
-        }
-        break;
-      default:
-        if (typeof this.console[level] === 'boolean' && this.console[level] === true) {
-          console.log(...args);
-        }
-    }
-
-    // Notify all listeners
-    this.observer.notify('log', ...[message, level, context]);
+    // Pass log event to outputs.
+    this.outputs.forEach((output) => {
+      output(event);
+    });
   }
 
   /**
-   * Removes an event listener.
-   * @param {string} event
-   * @param listener
-   */
-  off(event, listener) {
-    this.observer.detach(event, listener);
-  }
-
-  /**
-   * Adds an event listener.
-   * @param {string} event
-   * @param listener
-   */
-  on(event, listener) {
-    this.observer.attach(event, listener);
-  }
-
-  /**
-   * Enables or disables the logger.
+   * Enables or disables logging.
    * @param {boolean} active
    */
   setActive(active) {
@@ -191,7 +135,7 @@ class Logger {
    * @param {string} message
    * @param context
    */
-  warn(message, context) {
+  warn(message, context = undefined) {
     this.log(WARN, message, context);
   }
 }

@@ -3,90 +3,58 @@
  * Copyright (c) 2020 Karl STEIN
  */
 
-import deepExtend from '@jalik/deep-extend';
-import Observer from '@jalik/observer';
-import Types from './types';
+import {
+  DEBUG,
+  ERROR,
+  INFO,
+  WARN,
+} from './levels';
+
+const defaultOptions = {
+  active: true,
+  console: {
+    DEBUG: true,
+    ERROR: true,
+    INFO: true,
+    WARN: true,
+  },
+  name: null,
+  displayContext: false,
+  displayName: false,
+};
 
 class Logger {
-  constructor(options) {
+  constructor(options = {}) {
     // Set default options
-    this.options = deepExtend({
-      active: true,
-      console: {
-        debug: true,
-        error: true,
-        info: true,
-        other: true,
-        warning: true,
-      },
-      displayContext: false,
-      displayName: false,
-      name: null,
-    }, options);
+    const opts = { ...defaultOptions, ...options };
 
-    // Create observer
+    // Set logger status.
+    this.active = opts.active === true;
+
+    // Set details to show.
+    this.console = opts.console;
+    this.displayContext = opts.displayContext;
+    this.displayName = opts.displayName;
+
+    // Set logger name.
+    this.name = opts.name == null ? `logger_${Date.now()}` : String(opts.name);
+
+    // Create observer.
     this.observer = new Observer(this);
-
-    // Check console availability
-    if (typeof console !== 'object' || console === null) {
-      throw new Error('The console object is not available in this environment.');
-    }
-
-    // Add polyfill methods to the console object
-    // eslint-disable-next-line no-console
-    if (typeof console.log === 'function') {
-      // eslint-disable-next-line no-console
-      if (typeof console.debug !== 'function') {
-        // eslint-disable-next-line no-console
-        console.debug = console.log.bind(console);
-      }
-      // eslint-disable-next-line no-console
-      if (typeof console.error !== 'function') {
-        // eslint-disable-next-line no-console
-        console.error = console.log.bind(console);
-      }
-      // eslint-disable-next-line no-console
-      if (typeof console.info !== 'function') {
-        // eslint-disable-next-line no-console
-        console.info = console.log.bind(console);
-      }
-      // eslint-disable-next-line no-console
-      if (typeof console.warn !== 'function') {
-        // eslint-disable-next-line no-console
-        console.warn = console.log.bind(console);
-      }
-    }
-
-    // Check logger name
-    if (typeof this.options.name === 'undefined' || this.options.name === null) {
-      // Generate a name
-      this.name = `logger-${Date.now()}`;
-    } else {
-      this.name = this.options.name;
-    }
   }
 
   /**
-   * Returns a clone of the current logger with a different name.
-   * @param name
-   * @return {Logger}
-   */
-  clone(name) {
-    return new Logger(deepExtend({}, this.options, { name }));
-  }
-
-  /**
-   * Logs a debug message
-   * @param message
+   * Logs a debug message.
+   * @param {string} message
    * @param context
    */
   debug(message, context) {
-    this.log(message, Types.debug, context);
+    this.log(DEBUG, message, context);
   }
 
   /**
-   * Logs an error message
-   * @param messageOrError
+   * Logs an error message.
+   * @param {string|Error} messageOrError
    * @param context
    */
   error(messageOrError, context) {
@@ -106,11 +74,11 @@ class Logger {
       const { message } = messageOrError;
       msg = message;
     }
-    this.log(msg, Types.error, ctx);
+    this.log(ERROR, msg, ctx);
   }
 
   /**
-   * Returns the logger name
+   * Returns the logger name.
    * @return {string|null}
    */
   getName() {
@@ -118,93 +86,83 @@ class Logger {
   }
 
   /**
-   * Logs an information message
-   * @param message
+   * Logs an information message.
+   * @param {string} message
    * @param context
    */
   info(message, context) {
-    this.log(message, Types.info, context);
+    this.log(INFO, message, context);
   }
 
   /**
-   * Checks if the logger is active
+   * Checks if the logger is active.
    * @return {boolean}
    */
   isActive() {
-    return this.options.active === true;
+    return this.active === true;
   }
 
   /**
-   * Logs a message
-   * @param message
-   * @param type
+   * Logs a message with a certain level.
+   * @param {string} level
+   * @param {string} message
    * @param context
    */
-  log(message, type, context) {
-    if (this.isActive()) {
-      const args = [];
+  log(level, message, context) {
+    // Abort if logger is not active.
+    if (!this.isActive()) {
+      return;
+    }
+    const args = [];
 
-      // Display logger name in console
-      if (this.options.displayName === true) {
-        args.push(`${this.name}:`);
-      }
+    // Display logger name in console
+    if (this.displayName === true) {
+      args.push(`${this.name}:`);
+    }
 
-      // Display message in console
-      args.push(message);
+    // Display message in console
+    args.push(message);
 
-      // Display context in console
-      if (typeof context !== 'undefined' && this.options.displayContext === true) {
-        args.push(context);
-      }
+    // Display context in console
+    if (typeof context !== 'undefined' && this.displayContext === true) {
+      args.push(context);
+    }
 
-      // Displays the message in the console
-      switch (type) {
-        case Types.debug:
-          if (this.options.console.debug === true) {
-            // eslint-disable-next-line no-console
-            console.log(...args);
-          }
-          break;
-
-        case Types.error:
-          if (this.options.console.error === true) {
-            // eslint-disable-next-line no-console
-            console.error(...args);
-          }
-          break;
-
-        case Types.info:
-          if (this.options.console.info === true) {
-            // eslint-disable-next-line no-console
-            console.info(...args);
-          }
-          break;
-
-        case Types.warning:
-          if (this.options.console.warning === true) {
-            // eslint-disable-next-line no-console
-            console.warn(...args);
-          }
-          break;
-
-        default:
-          if ((typeof this.options.console[type] === 'boolean'
-            && this.options.console[type] === true)
-            || (typeof this.options.console[type] !== 'boolean'
-              && this.options.console.other === true)) {
-            // eslint-disable-next-line no-console
-            console.log(...args);
-          }
-      }
+    // Displays the message in the console
+    switch (level) {
+      case DEBUG:
+        if (this.console.DEBUG === true) {
+          console.log(...args);
+        }
+        break;
+      case ERROR:
+        if (this.console.ERROR === true) {
+          console.error(...args);
+        }
+        break;
+      case INFO:
+        if (this.console.INFO === true) {
+          console.info(...args);
+        }
+        break;
+      case WARN:
+        if (this.console.WARN === true) {
+          console.warn(...args);
+        }
+        break;
+      default:
+        if (typeof this.console[level] === 'boolean' && this.console[level] === true) {
+          console.log(...args);
+        }
     }
 
     // Notify all listeners
-    this.observer.notify('log', ...[message, type, context]);
+    this.observer.notify('log', ...[message, level, context]);
   }
 
   /**
-   * Removes an event listener
-   * @param event
+   * Removes an event listener.
+   * @param {string} event
    * @param listener
    */
   off(event, listener) {
@@ -212,8 +170,8 @@ class Logger {
   }
 
   /**
-   * Adds an event listener
-   * @param event
+   * Adds an event listener.
+   * @param {string} event
    * @param listener
    */
   on(event, listener) {
@@ -221,20 +179,20 @@ class Logger {
   }
 
   /**
-   * Activates or deactivates the logger
-   * @param active
+   * Enables or disables the logger.
+   * @param {boolean} active
    */
   setActive(active) {
-    this.options.active = (active === true);
+    this.active = active === true;
   }
 
   /**
-   * Logs a warning message
-   * @param message
+   * Logs a warning message.
+   * @param {string} message
    * @param context
    */
   warn(message, context) {
-    this.log(message, Types.warning, context);
+    this.log(WARN, message, context);
   }
 }
 

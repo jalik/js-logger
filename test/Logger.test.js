@@ -40,6 +40,39 @@ describe('new Logger(options)', () => {
     });
   });
 
+  describe('with options.defaultContext', () => {
+    describe('with options.defaultContext = object', () => {
+      const createLoggerWithDefaultContext = () => {
+        const result = {
+          logger: null,
+          defaultContext: { num: 42 },
+          ctx: null,
+        };
+        result.logger = new Logger({
+          active: true,
+          defaultContext: result.defaultContext,
+          outputs: [(event) => {
+            result.ctx = event.context;
+          }],
+        });
+        return result;
+      };
+
+      it('should create a logger with the given default context', () => {
+        const { defaultContext, logger } = createLoggerWithDefaultContext();
+        expect(logger.defaultContext).toBe(defaultContext);
+      });
+
+      it('should add the default context to every log event', () => {
+        const result = createLoggerWithDefaultContext();
+        const { logger, defaultContext } = result;
+        logger.info('Hello World');
+        expect(result.ctx).not.toBeNull();
+        expect(result.ctx.num).toBe(defaultContext.num);
+      });
+    });
+  });
+
   describe('with options.level', () => {
     describe('with options.level = string', () => {
       it('should create a logger with the given log level', () => {

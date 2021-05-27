@@ -207,6 +207,27 @@ setTimeout(() => {
 
 This method tells you if the logger is enabled.
 
+## Setting a default context
+
+It is possible to define a default context when creating the logger. This context will be passed to
+all log events and may be overwritten for each log.
+
+```js
+import { Logger } from '@jalik/logger';
+
+const logger = new Logger({
+  defaultContext: {
+    host: process.env.HOST
+  }
+});
+
+// then logging a message will automatically use the default context.
+logger.info('Application started.');
+
+// you can even add a context over a default context (attributes will be merged and/or replaced).
+logger.info('Something happened', { tag: 'something-event' });
+```
+
 ## Logging outputs
 
 Each logger can be configured with one or more `outputs`.  

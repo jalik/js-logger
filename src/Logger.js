@@ -14,8 +14,9 @@ import consoleOutput from './outputs/consoleOutput';
 
 const defaultOptions = {
   active: true,
+  defaultContext: null,
   level: INFO,
-  name: undefined,
+  name: null,
   outputs: [consoleOutput()],
 };
 
@@ -44,13 +45,16 @@ class Logger {
     // Set logger status.
     this.active = opts.active === true;
 
-    // Set logger level.
+    // Set default log context.
+    this.defaultContext = opts.defaultContext;
+
+    // Set minimal log level.
     this.level = opts.level;
 
     // Set logger name.
     this.name = opts.name == null ? `logger_${Date.now()}` : String(opts.name);
 
-    // Set outputs.
+    // Set log outputs.
     this.outputs = [].concat(opts.outputs || []);
 
     if (typeof this.outputs !== 'object' || !(this.outputs instanceof Array) || this.outputs.length === 0) {
@@ -146,7 +150,7 @@ class Logger {
 
     // Prepare log event.
     const event = {
-      context,
+      context: this.defaultContext ? { ...this.defaultContext, ...context } : context,
       level,
       logger: this.name,
       message,

@@ -6,6 +6,7 @@
 import {
   DEBUG,
   ERROR,
+  FATAL,
   INFO,
   WARN,
 } from '../src/levels';
@@ -102,6 +103,21 @@ describe('new Logger(options)', () => {
       logger.error(message);
       expect(logEvent).not.toBeNull();
       expect(logEvent.level).toBe(ERROR);
+      expect(logEvent.message).toBe(message);
+    });
+  });
+
+  describe('fatal(string, object)', () => {
+    it('should log a fatal error message', () => {
+      let logEvent = null;
+      const message = 'Something failed';
+      const logger = new Logger({
+        active: true,
+        outputs: [(event) => { logEvent = event; }],
+      });
+      logger.fatal(message);
+      expect(logEvent).not.toBeNull();
+      expect(logEvent.level).toBe(FATAL);
       expect(logEvent.message).toBe(message);
     });
   });

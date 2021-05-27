@@ -6,6 +6,7 @@
 import {
   DEBUG,
   ERROR,
+  FATAL,
   INFO,
   WARN,
 } from './levels';
@@ -16,6 +17,23 @@ const defaultOptions = {
   name: undefined,
   outputs: [consoleOutput()],
 };
+
+/**
+ * Returns details of an error.
+ * @param {Error} error
+ * @return {{message: string, name: string, reason: string, stack: string, type: string}}
+ */
+function getErrorDetails(error) {
+  const attributes = ['message', 'name', 'reason', 'stack', 'type'];
+  const details = {};
+
+  for (let i = 0; i < attributes.length; i += 1) {
+    if (attributes[i] in error) {
+      details[attributes[i]] = error[attributes[i]];
+    }
+  }
+  return details;
+}
 
 class Logger {
   constructor(options = {}) {
@@ -52,22 +70,29 @@ class Logger {
    */
   error(messageOrError, context = undefined) {
     const ctx = context || {};
-    let msg = messageOrError;
+    let message = messageOrError;
 
     if (messageOrError instanceof Error) {
-      ctx.error = {};
-
-      const attributes = ['name', 'message', 'reason', 'stack', 'type'];
-
-      for (let i = 0; i < attributes.length; i += 1) {
-        if (attributes[i] in messageOrError) {
-          ctx.error[attributes[i]] = messageOrError[attributes[i]];
-        }
-      }
-      const { message } = messageOrError;
-      msg = message;
+      message = messageOrError.message;
+      ctx.error = getErrorDetails(messageOrError);
     }
-    this.log(ERROR, msg, ctx);
+    this.log(ERROR, message, ctx);
+  }
+
+  /**
+   * Logs a fatal error message.
+   * @param {string|Error} messageOrError
+   * @param context
+   */
+  fatal(messageOrError, context = undefined) {
+    const ctx = context || {};
+    let message = messageOrError;
+
+    if (messageOrError instanceof Error) {
+      message = messageOrError.message;
+      ctx.error = getErrorDetails(messageOrError);
+    }
+    this.log(FATAL, message, ctx);
   }
 
   /**

@@ -8,12 +8,14 @@
 import {
   DEBUG,
   ERROR,
+  FATAL,
   INFO,
   WARN,
 } from '../levels';
 
 const debug = typeof console.debug === 'function' ? console.debug : console.log;
 const error = typeof console.error === 'function' ? console.error : console.log;
+const fatal = typeof console.fatal === 'function' ? console.fatal : error;
 const info = typeof console.info === 'function' ? console.info : console.log;
 const warn = typeof console.warn === 'function' ? console.info : console.log;
 
@@ -52,6 +54,8 @@ function consoleOutput(options = defaultOptions) {
       warn(...output);
     } else if (level === ERROR) {
       error(...output);
+    } else if (level === FATAL) {
+      fatal(...output);
     }
   };
 }

@@ -6,7 +6,9 @@
   "keywords": [
     "debug",
     "error",
+    "log",
     "logs",
+    "logger",
     "logging"
   ],
   "author": {
@@ -21,8 +23,9 @@
   "bugs": {
     "url": "https://github.com/jalik/js-logger/issues"
   },
-  "main": "dist/Logger.js",
-  "esnext": "src/Logger.js",
+  "main": "./dist/index.js",
+  "module": "./src/index.js",
+  "esnext": "./src/index.js",
   "sideEffects": false,
   "scripts": {
     "build": "babel src -d dist",

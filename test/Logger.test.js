@@ -8,9 +8,9 @@ import {
   ERROR,
   FATAL,
   INFO,
+  Logger,
   WARN,
-} from '../src/levels';
-import Logger from '../src/Logger';
+} from '../src';
 
 describe('Logger', () => {
   it('should be importable from package', () => {

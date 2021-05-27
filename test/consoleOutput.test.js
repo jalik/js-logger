@@ -3,9 +3,11 @@
  * Copyright (c) 2021 Karl STEIN
  */
 
-import { DEBUG } from '../src/levels';
-import Logger from '../src/Logger';
-import consoleOutput from '../src/outputs/consoleOutput';
+import {
+  consoleOutput,
+  DEBUG,
+  Logger,
+} from '../src';
 
 describe('new Logger({ outputs: [ consoleOutput() ] })', () => {
   const logger = new Logger({

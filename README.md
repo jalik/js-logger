@@ -209,8 +209,8 @@ This method tells you if the logger is enabled.
 
 ## Setting a default context
 
-It is possible to define a default context when creating the logger. This context will be passed to
-all log events and may be overwritten for each log.
+It is possible to define a `defaultContext` when creating the logger.  
+This context will be passed to all log events and may be overwritten for each log.
 
 ```js
 import { Logger } from '@jalik/logger';
@@ -226,6 +226,32 @@ logger.info('Application started.');
 
 // you can even add a context over a default context (attributes will be merged and/or replaced).
 logger.info('Something happened', { tag: 'something-event' });
+```
+
+## Filtering log events
+
+You can filter the logs that are processed by using the `filter` option when creating a logger.
+
+```js
+import {
+  DEBUG,
+  Logger
+} from '@jalik/logger';
+
+const cronFilter = (event) => {
+  return (event.context && event.context.tag === 'cron') || /cron/g.test(event.message)
+}
+
+const logger = new Logger({
+  level: DEBUG,
+  filter: cronFilter
+});
+
+// this will be logged.
+logger.info('Cron jobs executed.', { tag: 'cron' });
+
+// this will not be logged.
+logger.info('Application started.');
 ```
 
 ## Logging outputs

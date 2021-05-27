@@ -15,6 +15,7 @@
 - Added option `level: string` in Logger constructor (default: `info`), it can be one of `debug`, `info`, `warn`, `error` or `fatal`
 - Added option `outputs: Array<function>` in Logger constructor (default: `[consoleOutput()]`)
 - Added option `defaultContext: null|object` in Logger constructor (default: `null`)
+- Added option `filter: null|function` in Logger constructor (default: `null`)
 - Upgraded dependencies
 
 ## v2.2.9

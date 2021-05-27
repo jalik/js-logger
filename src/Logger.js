@@ -15,6 +15,7 @@ import consoleOutput from './outputs/consoleOutput';
 const defaultOptions = {
   active: true,
   defaultContext: null,
+  filter: null,
   level: INFO,
   name: null,
   outputs: [consoleOutput()],
@@ -47,6 +48,9 @@ class Logger {
 
     // Set default log context.
     this.defaultContext = opts.defaultContext;
+
+    // Set logs filter.
+    this.filter = opts.filter;
 
     // Set minimal log level.
     this.level = opts.level;
@@ -156,6 +160,11 @@ class Logger {
       message,
       timestamp: Date.now(),
     };
+
+    // Filter log event.
+    if (typeof this.filter === 'function' && this.filter(event) !== true) {
+      return;
+    }
 
     // Pass log event to outputs.
     this.outputs.forEach((output) => {

@@ -73,6 +73,38 @@ describe('new Logger(options)', () => {
     });
   });
 
+  describe('with options.filter', () => {
+    describe('with options.filter = function', () => {
+      const createLogger = () => {
+        const result = {
+          isCalled: false,
+          logger: null,
+        };
+        result.logger = new Logger({
+          active: true,
+          filter: (event) => event.context && event.context.tag === 'cron',
+          level: DEBUG,
+          outputs: [
+            () => { result.isCalled = true; },
+          ],
+        });
+        return result;
+      };
+      it('should create a logger with the filter', () => {
+        const result = createLogger();
+        const { logger } = result;
+        logger.info('Executed cron jobs', { tag: 'cron' });
+        expect(result.isCalled).toBe(true);
+      });
+      it('should create a logger with the filter', () => {
+        const result = createLogger();
+        const { logger } = result;
+        logger.info('Application started');
+        expect(result.isCalled).toBe(false);
+      });
+    });
+  });
+
   describe('with options.level', () => {
     describe('with options.level = string', () => {
       it('should create a logger with the given log level', () => {

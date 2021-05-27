@@ -1,6 +1,6 @@
 {
   "name": "@jalik/logger",
-  "version": "2.2.9",
+  "version": "3.0.0",
   "description": "A logging utility to log messages to anywhere.",
   "license": "MIT",
   "keywords": [

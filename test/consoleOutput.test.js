@@ -17,7 +17,7 @@ describe('new Logger({ outputs: [ consoleOutput() ] })', () => {
 
   describe('logger.debug(string, string)', () => {
     it('should send event to console', () => {
-      logger.debug('Hello World');
+      logger.debug('Hello World', { number: 42 });
     });
   });
 

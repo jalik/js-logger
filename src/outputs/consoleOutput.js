@@ -22,13 +22,18 @@ const warn = typeof console.warn === 'function' ? console.info : console.log;
 const defaultOptions = {
   formatter: (event) => {
     const {
-      // context,
+      context,
       level,
       logger,
       message,
       timestamp,
     } = event;
-    return `${new Date(timestamp).toISOString()} ${level.toUpperCase()} [${logger}] : ${message}`;
+    let out = `${new Date(timestamp).toISOString()} ${level.toUpperCase()} [${logger}] : ${message}`;
+
+    if (context) {
+      out += ` ; ${JSON.stringify(context)}`;
+    }
+    return out;
   },
 };
 

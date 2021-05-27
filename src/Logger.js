@@ -3,7 +3,7 @@
  * Copyright (c) 2021 Karl STEIN
  */
 
-import {
+import levels, {
   DEBUG,
   ERROR,
   FATAL,
@@ -14,6 +14,7 @@ import consoleOutput from './outputs/consoleOutput';
 
 const defaultOptions = {
   active: true,
+  level: INFO,
   name: undefined,
   outputs: [consoleOutput()],
 };
@@ -42,6 +43,9 @@ class Logger {
 
     // Set logger status.
     this.active = opts.active === true;
+
+    // Set logger level.
+    this.level = opts.level;
 
     // Set logger name.
     this.name = opts.name == null ? `logger_${Date.now()}` : String(opts.name);
@@ -96,6 +100,14 @@ class Logger {
   }
 
   /**
+   * Returns the log level.
+   * @return {string}
+   */
+  getLevel() {
+    return this.level;
+  }
+
+  /**
    * Returns the logger name.
    * @return {string|null}
    */
@@ -127,8 +139,8 @@ class Logger {
    * @param context
    */
   log(level, message, context = undefined) {
-    // Abort if logger is not active.
-    if (!this.isActive()) {
+    // Ignore if logger is not active or if log level is higher.
+    if (!this.isActive() || levels.indexOf(this.level) > levels.indexOf(level)) {
       return;
     }
 
@@ -153,6 +165,14 @@ class Logger {
    */
   setActive(active) {
     this.active = active === true;
+  }
+
+  /**
+   * Changes the log level.
+   * @param {string} level
+   */
+  setLevel(level) {
+    this.level = level;
   }
 
   /**

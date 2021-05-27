@@ -26,18 +26,84 @@ describe('new Logger(options)', () => {
         expect(logger.isActive()).toBe(true);
       });
     });
-
     describe('with options.active = false', () => {
       it('should create an inactive logger', () => {
         const logger = new Logger({ active: false });
         expect(logger.isActive()).toBe(false);
       });
     });
-
     describe('with options.active = undefined', () => {
       it('should create an active logger', () => {
         const logger = new Logger({});
         expect(logger.isActive()).toBe(true);
+      });
+    });
+  });
+
+  describe('with options.level', () => {
+    describe('with options.level = string', () => {
+      it('should create a logger with the given log level', () => {
+        const level = ERROR;
+        const logger = new Logger({ level });
+        expect(logger.getLevel()).toBe(level);
+      });
+    });
+    describe('with options.level = INFO', () => {
+      it('should not log messages under INFO level', () => {
+        const message = 'hello world';
+        let isCalled = false;
+        const logger = new Logger({
+          active: true,
+          level: INFO,
+          outputs: [() => { isCalled = true; }],
+        });
+        logger.debug(message);
+        expect(isCalled).toBe(false);
+      });
+    });
+    describe('with options.level = WARN', () => {
+      it('should not log messages under WARN level', () => {
+        const message = 'hello world';
+        let isCalled = false;
+        const logger = new Logger({
+          active: true,
+          level: WARN,
+          outputs: [() => { isCalled = true; }],
+        });
+        logger.debug(message);
+        logger.info(message);
+        expect(isCalled).toBe(false);
+      });
+    });
+    describe('with options.level = ERROR', () => {
+      it('should not log messages under ERROR level', () => {
+        const message = 'hello world';
+        let isCalled = false;
+        const logger = new Logger({
+          active: true,
+          level: ERROR,
+          outputs: [() => { isCalled = true; }],
+        });
+        logger.debug(message);
+        logger.info(message);
+        logger.warn(message);
+        expect(isCalled).toBe(false);
+      });
+    });
+    describe('with options.level = FATAL', () => {
+      it('should not log messages under FATAL level', () => {
+        const message = 'hello world';
+        let isCalled = false;
+        const logger = new Logger({
+          active: true,
+          level: FATAL,
+          outputs: [() => { isCalled = true; }],
+        });
+        logger.debug(message);
+        logger.info(message);
+        logger.warn(message);
+        logger.error(message);
+        expect(isCalled).toBe(false);
       });
     });
   });
@@ -50,7 +116,6 @@ describe('new Logger(options)', () => {
         expect(logger.getName()).toBe(name);
       });
     });
-
     describe('with options.name = undefined', () => {
       it('should create a logger with a generated name', () => {
         const logger = new Logger({});
@@ -83,6 +148,7 @@ describe('new Logger(options)', () => {
       const message = 'Hello World';
       const logger = new Logger({
         active: true,
+        level: DEBUG,
         outputs: [(event) => { logEvent = event; }],
       });
       logger.debug(message);
@@ -98,6 +164,7 @@ describe('new Logger(options)', () => {
       const message = 'Something failed';
       const logger = new Logger({
         active: true,
+        level: ERROR,
         outputs: [(event) => { logEvent = event; }],
       });
       logger.error(message);
@@ -113,6 +180,7 @@ describe('new Logger(options)', () => {
       const message = 'Something failed';
       const logger = new Logger({
         active: true,
+        level: FATAL,
         outputs: [(event) => { logEvent = event; }],
       });
       logger.fatal(message);
@@ -128,6 +196,7 @@ describe('new Logger(options)', () => {
       const message = 'Sky is blue';
       const logger = new Logger({
         active: true,
+        level: INFO,
         outputs: [(event) => { logEvent = event; }],
       });
       logger.info(message);
@@ -142,7 +211,6 @@ describe('new Logger(options)', () => {
       const logger = new Logger({ active: true });
       expect(logger.isActive()).toBe(true);
     });
-
     it('should return true if the logger is not active', () => {
       const logger = new Logger({ active: false });
       expect(logger.isActive()).toBe(false);
@@ -155,6 +223,7 @@ describe('new Logger(options)', () => {
     const context = { color: 'blue' };
     const logger = new Logger({
       active: true,
+      level: INFO,
       outputs: [(event) => { logEvent = event; }],
     });
     logger.log(INFO, message, context);
@@ -164,13 +233,11 @@ describe('new Logger(options)', () => {
         expect(logEvent.level).toBe(INFO);
       });
     });
-
     describe(`with message = "${message}"`, () => {
       it('should log the message', () => {
         expect(logEvent.message).toBe(message);
       });
     });
-
     describe(`with context = "${context}"`, () => {
       it('should log the message with context', () => {
         expect(logEvent.context).toBe(context);
@@ -186,7 +253,6 @@ describe('new Logger(options)', () => {
         expect(logger.isActive()).toBe(true);
       });
     });
-
     describe('setActive(false)', () => {
       it('should disable the logger', () => {
         const logger = new Logger({ active: true });
@@ -202,6 +268,7 @@ describe('new Logger(options)', () => {
       const message = 'Something happened';
       const logger = new Logger({
         active: true,
+        level: WARN,
         outputs: [(event) => { logEvent = event; }],
       });
       logger.warn(message);

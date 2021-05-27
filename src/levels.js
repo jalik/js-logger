@@ -9,12 +9,16 @@ export const FATAL = 'fatal';
 export const INFO = 'info';
 export const WARN = 'warn';
 
-const levels = {
+/**
+ * Log levels ordered by importance and granularity (less to most).
+ * @type {(string)[]}
+ */
+const levels = [
   DEBUG,
   INFO,
   WARN,
   ERROR,
   FATAL,
-};
+];
 
 export default levels;

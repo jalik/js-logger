@@ -1,5 +1,10 @@
 # Changelog
 
+## v3.0.1
+
+- Fixed potentially breaking "export from" syntax in index.js
+- Upgraded dependencies
+
 ## v3.0.0
 
 - **[BREAKING CHANGE]** Changed method signature of `log()` in Logger
@@ -8,11 +13,12 @@
 - **[BREAKING CHANGE]** Removed options `console`, `displayContext` and `displayName` from Logger
   constructor
 - **[BREAKING CHANGE]** Moved log level constants to levels.js
-- **[BREAKING CHANGE]** Logger must be imported using a named
-  import (example: `import { Logger } from '@jalik/logger'`)
+- **[BREAKING CHANGE]** Logger must be imported using a named import (
+  example: `import { Logger } from '@jalik/logger'`)
 - Added `FATAL` constant log level
 - Added method `fatal(string|Error, object)` in Logger
-- Added option `level: string` in Logger constructor (default: `info`), it can be one of `debug`, `info`, `warn`, `error` or `fatal`
+- Added option `level: string` in Logger constructor (default: `info`), it can be one of `debug`
+  , `info`, `warn`, `error` or `fatal`
 - Added option `outputs: Array<function>` in Logger constructor (default: `[consoleOutput()]`)
 - Added option `defaultContext: null|object` in Logger constructor (default: `null`)
 - Added option `filter: null|function` in Logger constructor (default: `null`)

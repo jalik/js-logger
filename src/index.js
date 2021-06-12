@@ -3,14 +3,23 @@
  * Copyright (c) 2021 Karl STEIN
  */
 
+import levels, {
+  DEBUG,
+  ERROR,
+  FATAL,
+  INFO,
+  WARN,
+} from './levels';
+import Logger from './Logger';
+import consoleOutput from './outputs/consoleOutput';
+
 export {
-  default as levels,
   DEBUG,
   INFO,
   WARN,
   ERROR,
   FATAL,
-} from './levels';
-
-export { default as consoleOutput } from './outputs/consoleOutput';
-export { default as Logger } from './Logger';
+  levels,
+  consoleOutput,
+  Logger,
+};

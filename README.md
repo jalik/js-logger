@@ -53,8 +53,8 @@ const logger = new Logger({ name: 'main' });
 
 ## Levels of logging
 
-Several logging levels are available to differentiate important events.  
-Below is the list of levels ordered from the **less important to the most important**.
+The following logging levels are available (ordered from the **less important to the most
+important**).
 
 - `debug`: used for debugging messages
 - `info`: used for informational messages
@@ -62,7 +62,7 @@ Below is the list of levels ordered from the **less important to the most import
 - `error`: used for error messages
 - `fatal`: used for fatal error messages
 
-All levels are defined with the following constants.
+They can be imported via constants.
 
 ```js
 import {
@@ -74,7 +74,7 @@ import {
 } from '@jalik/logger';
 ```
 
-The ordered levels list is also available as an array.
+The ordered levels can also be imported as an array.
 
 ```js
 import { levels } from '@jalik/logger';
@@ -82,11 +82,11 @@ import { levels } from '@jalik/logger';
 
 ## Logging messages
 
-To log messages, you can use the method `log(level: string, message: string, context?: any)` or one
-of the shortcut methods `debug()`
-, `info()`, `warn()`, `error()` and `fatal()`.
+Use any of these functions to log messages.
 
 ### `log(level, message, context)`
+
+This is the "low level" function called by other shortcut functions.
 
 ```js
 import {
@@ -95,10 +95,10 @@ import {
 } from '@jalik/logger';
 
 const logger = new Logger({ name: 'main' });
-
-// Logs a custom type message.
 const ipAddress = '6.6.6.6';
-logger.log(INFO, `The IP address ${ipAddress} has failed to login 3 times`, 'suspicious', { ipAddress });
+
+// Logs an informational message with a context.
+logger.log(INFO, `The IP address ${ipAddress} has failed to login 3 times`, { ipAddress });
 ```
 
 ### `debug(message, context)`
@@ -111,7 +111,7 @@ const a = 2;
 const b = 4;
 const result = a + b;
 
-// Log the message with a context
+// Logs a message with a context
 logger.debug(`result = ${result}`, { a, b });
 // or without context
 logger.debug(`result = ${result}`);
@@ -155,10 +155,10 @@ const error = new Error('Forbidden');
 
 // Log the message with a context
 logger.error('Forbidden', { error });
-// or simply
-logger.error(error);
 // or without context
 logger.error('Forbidden');
+// or simply (it will use error.message)
+logger.error(error);
 ```
 
 ### `fatal(message, context)`
@@ -171,10 +171,10 @@ const error = new Error('app crashed');
 
 // Log the message with a context
 logger.fatal('app crashed', { error });
-// or simply
-logger.fatal(error);
 // or without context
 logger.fatal('app crashed');
+// or simply (it will use error.message)
+logger.fatal(error);
 ```
 
 ## Enabling or disabling a logger
@@ -197,8 +197,8 @@ logger.isActive();
 
 // Disable logger after 30 seconds.
 setTimeout(() => {
+  // Anything that is logged after this line will be ignored.
   logger.setActive(false);
-  // Anything that is logged after the line above will be ignored.
   logger.info('Sky is blue');
 }, 30000)
 ```
@@ -272,6 +272,8 @@ import {
 } from '@jalik/logger';
 
 function formatter(event) {
+  // format:
+  // DATE EVENT [LOGGER] : MESSAGE ; CONTEXT
   return [
     new Date(event.timestamp).toISOString(),
     event.level.toUpperCase(),
@@ -291,6 +293,7 @@ const logger = new Logger({
 });
 
 logger.info('Hello World', { number: 42 });
+// will log:
 // 2021-05-27T02:40:06.957Z DEBUG [main] : Hello World ; {"number":42}
 ```
 

@@ -1,9 +1,9 @@
 # @jalik/logger
 
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/jalik/js-logger.svg)
-[![Build Status](https://travis-ci.com/jalik/js-logger.svg?branch=master)](https://travis-ci.com/jalik/js-logger)
 ![GitHub](https://img.shields.io/github/license/jalik/js-logger.svg)
-![GitHub last commit](https://img.shields.io/github/last-commit/jalik/js-logger.svg)
+![Last commit](https://img.shields.io/github/last-commit/jalik/js-logger.svg)
+![Build Status](https://github.com/jalik/js-logger/actions/workflows/node.js.yml/badge.svg)
 [![GitHub issues](https://img.shields.io/github/issues/jalik/js-logger.svg)](https://github.com/jalik/js-logger/issues)
 ![npm](https://img.shields.io/npm/dt/@jalik/logger.svg)
 

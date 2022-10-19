@@ -1,6 +1,6 @@
 /*
  * The MIT License (MIT)
- * Copyright (c) 2021 Karl STEIN
+ * Copyright (c) 2022 Karl STEIN
  */
 
 import {
@@ -239,6 +239,22 @@ describe('new Logger(options)', () => {
     });
   });
 
+  describe('error(Error)', () => {
+    it('should log an error', () => {
+      let event = null;
+      const logger = new Logger({
+        active: true,
+        level: ERROR,
+        outputs: [(ev) => { event = ev; }],
+      });
+      const error = new Error('Something failed');
+      logger.error(error);
+      expect(event).not.toBeNull();
+      expect(event.level).toBe(ERROR);
+      expect(event.message).toBe(error.message);
+    });
+  });
+
   describe('fatal(string, object)', () => {
     it('should log a fatal error message', () => {
       let logEvent = null;
@@ -252,6 +268,22 @@ describe('new Logger(options)', () => {
       expect(logEvent).not.toBeNull();
       expect(logEvent.level).toBe(FATAL);
       expect(logEvent.message).toBe(message);
+    });
+  });
+
+  describe('fatal(Error)', () => {
+    it('should log an error', () => {
+      let event = null;
+      const logger = new Logger({
+        active: true,
+        level: FATAL,
+        outputs: [(ev) => { event = ev; }],
+      });
+      const error = new Error('Fatal error');
+      logger.fatal(error);
+      expect(event).not.toBeNull();
+      expect(event.level).toBe(FATAL);
+      expect(event.message).toBe(error.message);
     });
   });
 
@@ -323,6 +355,16 @@ describe('new Logger(options)', () => {
         const logger = new Logger({ active: true });
         logger.setActive(false);
         expect(logger.isActive()).toBe(false);
+      });
+    });
+  });
+
+  describe('setLevel(int)', () => {
+    describe('setLevel(ERROR)', () => {
+      it('should set the level to ERROR', () => {
+        const logger = new Logger({ active: false, level: INFO });
+        logger.setLevel(ERROR);
+        expect(logger.getLevel()).toBe(ERROR);
       });
     });
   });

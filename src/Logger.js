@@ -1,6 +1,6 @@
 /*
  * The MIT License (MIT)
- * Copyright (c) 2021 Karl STEIN
+ * Copyright (c) 2022 Karl STEIN
  */
 
 import levels, {
@@ -11,6 +11,7 @@ import levels, {
   WARN,
 } from './levels';
 import consoleOutput from './outputs/consoleOutput';
+import { getErrorDetails } from './util';
 
 const defaultOptions = {
   active: true,
@@ -20,23 +21,6 @@ const defaultOptions = {
   name: null,
   outputs: [consoleOutput()],
 };
-
-/**
- * Returns details of an error.
- * @param {Error} error
- * @return {{message: string, name: string, reason: string, stack: string, type: string}}
- */
-function getErrorDetails(error) {
-  const attributes = ['message', 'name', 'reason', 'stack', 'type'];
-  const details = {};
-
-  for (let i = 0; i < attributes.length; i += 1) {
-    if (attributes[i] in error) {
-      details[attributes[i]] = error[attributes[i]];
-    }
-  }
-  return details;
-}
 
 class Logger {
   constructor(options = {}) {

@@ -3,6 +3,11 @@
  * Copyright (c) 2022 Karl STEIN
  */
 
+import {
+  describe,
+  expect,
+  it,
+} from '@jest/globals';
 import { getErrorDetails } from '../src/util';
 
 describe('getErrorDetails()', () => {

@@ -42,7 +42,8 @@
     "/src"
   ],
   "dependencies": {
-    "@babel/runtime": "^7.17.2"
+    "@babel/runtime": "^7.17.2",
+    "@jest/globals": "^29.2.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.3",

@@ -4,6 +4,11 @@
  */
 
 import {
+  describe,
+  expect,
+  it,
+} from '@jest/globals';
+import {
   DEBUG,
   Logger,
 } from '../src';

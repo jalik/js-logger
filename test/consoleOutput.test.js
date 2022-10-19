@@ -1,49 +1,79 @@
 /*
  * The MIT License (MIT)
- * Copyright (c) 2021 Karl STEIN
+ * Copyright (c) 2022 Karl STEIN
  */
 
 import {
-  consoleOutput,
   DEBUG,
   Logger,
 } from '../src';
+import consoleOutput from '../src/outputs/consoleOutput';
+
+function createPayload() {
+  return {
+    message: 'This is a message',
+    context: { number: Math.random() },
+  };
+}
 
 describe('new Logger({ outputs: [ consoleOutput() ] })', () => {
+  const entries = [];
+  const formatter = ({ message, context }) => JSON.stringify({ message, context });
+
+  const output = consoleOutput({
+    entries,
+    formatter,
+  });
+
   const logger = new Logger({
     active: true,
     level: DEBUG,
     name: 'main',
-    outputs: [consoleOutput()],
+    outputs: [output],
   });
 
   describe('logger.debug(string, string)', () => {
     it('should send event to console', () => {
-      logger.debug('Hello World', { number: 42 });
-    });
-  });
-
-  describe('logger.info(string, string)', () => {
-    it('should send event to console', () => {
-      logger.info('Sky is blue');
-    });
-  });
-
-  describe('logger.warn(string, string)', () => {
-    it('should send event to console', () => {
-      logger.warn('Old is deprecated');
+      const payload = createPayload();
+      const { message, context } = payload;
+      logger.debug(message, context);
+      expect(entries.pop()).toBe(formatter(payload));
     });
   });
 
   describe('logger.error(string, string)', () => {
     it('should send event to console', () => {
-      logger.error('Something failed');
+      const payload = createPayload();
+      const { message, context } = payload;
+      logger.error(message, context);
+      expect(entries.pop()).toBe(formatter(payload));
     });
   });
 
   describe('logger.fatal(string, string)', () => {
     it('should send event to console', () => {
-      logger.fatal('Code is broken');
+      const payload = createPayload();
+      const { message, context } = payload;
+      logger.fatal(message, context);
+      expect(entries.pop()).toBe(formatter(payload));
+    });
+  });
+
+  describe('logger.info(string, string)', () => {
+    it('should send event to console', () => {
+      const payload = createPayload();
+      const { message, context } = payload;
+      logger.info(message, context);
+      expect(entries.pop()).toBe(formatter(payload));
+    });
+  });
+
+  describe('logger.warn(string, string)', () => {
+    it('should send event to console', () => {
+      const payload = createPayload();
+      const { message, context } = payload;
+      logger.warn(message, context);
+      expect(entries.pop()).toBe(formatter(payload));
     });
   });
 });

@@ -1,17 +1,10 @@
 /*
  * The MIT License (MIT)
- * Copyright (c) 2022 Karl STEIN
+ * Copyright (c) 2023 Karl STEIN
  */
 
-import {
-  describe,
-  expect,
-  it,
-} from '@jest/globals';
-import {
-  DEBUG,
-  Logger,
-} from '../src';
+import { describe, expect, it } from '@jest/globals';
+import { DEBUG, Logger } from '../src';
 import consoleOutput from '../src/outputs/consoleOutput';
 
 function createPayload() {

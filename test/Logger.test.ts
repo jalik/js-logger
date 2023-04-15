@@ -1,21 +1,10 @@
 /*
  * The MIT License (MIT)
- * Copyright (c) 2022 Karl STEIN
+ * Copyright (c) 2023 Karl STEIN
  */
 
-import {
-  describe,
-  expect,
-  it,
-} from '@jest/globals';
-import {
-  DEBUG,
-  ERROR,
-  FATAL,
-  INFO,
-  Logger,
-  WARN,
-} from '../src';
+import { describe, expect, it } from '@jest/globals';
+import { DEBUG, ERROR, FATAL, INFO, Logger, WARN } from '../src';
 
 describe('Logger', () => {
   it('should be importable from package', () => {
@@ -90,7 +79,9 @@ describe('new Logger(options)', () => {
           filter: (event) => event.context && event.context.tag === 'cron',
           level: DEBUG,
           outputs: [
-            () => { result.isCalled = true; },
+            () => {
+              result.isCalled = true;
+            },
           ],
         });
         return result;
@@ -125,7 +116,9 @@ describe('new Logger(options)', () => {
         const logger = new Logger({
           active: true,
           level: INFO,
-          outputs: [() => { isCalled = true; }],
+          outputs: [() => {
+            isCalled = true;
+          }],
         });
         logger.debug(message);
         expect(isCalled).toBe(false);
@@ -138,7 +131,9 @@ describe('new Logger(options)', () => {
         const logger = new Logger({
           active: true,
           level: WARN,
-          outputs: [() => { isCalled = true; }],
+          outputs: [() => {
+            isCalled = true;
+          }],
         });
         logger.debug(message);
         logger.info(message);
@@ -152,7 +147,9 @@ describe('new Logger(options)', () => {
         const logger = new Logger({
           active: true,
           level: ERROR,
-          outputs: [() => { isCalled = true; }],
+          outputs: [() => {
+            isCalled = true;
+          }],
         });
         logger.debug(message);
         logger.info(message);
@@ -167,7 +164,9 @@ describe('new Logger(options)', () => {
         const logger = new Logger({
           active: true,
           level: FATAL,
-          outputs: [() => { isCalled = true; }],
+          outputs: [() => {
+            isCalled = true;
+          }],
         });
         logger.debug(message);
         logger.info(message);
@@ -199,14 +198,18 @@ describe('new Logger(options)', () => {
     describe('with options.outputs = undefined', () => {
       it('should not throw an error', () => {
         let logger;
-        expect(() => { logger = new Logger({}); }).not.toThrow();
+        expect(() => {
+          logger = new Logger({});
+        }).not.toThrow();
         expect(logger).toBeDefined();
       });
     });
     describe('with options.outputs = []', () => {
       it('should throw an error', () => {
         let logger;
-        expect(() => { logger = new Logger({ outputs: [] }); }).toThrow();
+        expect(() => {
+          logger = new Logger({ outputs: [] });
+        }).toThrow();
         expect(logger).toBeUndefined();
       });
     });
@@ -219,7 +222,9 @@ describe('new Logger(options)', () => {
       const logger = new Logger({
         active: true,
         level: DEBUG,
-        outputs: [(event) => { logEvent = event; }],
+        outputs: [(event) => {
+          logEvent = event;
+        }],
       });
       logger.debug(message);
       expect(logEvent).not.toBeNull();
@@ -235,7 +240,9 @@ describe('new Logger(options)', () => {
       const logger = new Logger({
         active: true,
         level: ERROR,
-        outputs: [(event) => { logEvent = event; }],
+        outputs: [(event) => {
+          logEvent = event;
+        }],
       });
       logger.error(message);
       expect(logEvent).not.toBeNull();
@@ -250,7 +257,9 @@ describe('new Logger(options)', () => {
       const logger = new Logger({
         active: true,
         level: ERROR,
-        outputs: [(ev) => { event = ev; }],
+        outputs: [(ev) => {
+          event = ev;
+        }],
       });
       const error = new Error('Something failed');
       logger.error(error);
@@ -267,7 +276,9 @@ describe('new Logger(options)', () => {
       const logger = new Logger({
         active: true,
         level: FATAL,
-        outputs: [(event) => { logEvent = event; }],
+        outputs: [(event) => {
+          logEvent = event;
+        }],
       });
       logger.fatal(message);
       expect(logEvent).not.toBeNull();
@@ -282,7 +293,9 @@ describe('new Logger(options)', () => {
       const logger = new Logger({
         active: true,
         level: FATAL,
-        outputs: [(ev) => { event = ev; }],
+        outputs: [(ev) => {
+          event = ev;
+        }],
       });
       const error = new Error('Fatal error');
       logger.fatal(error);
@@ -299,7 +312,9 @@ describe('new Logger(options)', () => {
       const logger = new Logger({
         active: true,
         level: INFO,
-        outputs: [(event) => { logEvent = event; }],
+        outputs: [(event) => {
+          logEvent = event;
+        }],
       });
       logger.info(message);
       expect(logEvent).not.toBeNull();
@@ -326,7 +341,9 @@ describe('new Logger(options)', () => {
     const logger = new Logger({
       active: true,
       level: INFO,
-      outputs: [(event) => { logEvent = event; }],
+      outputs: [(event) => {
+        logEvent = event;
+      }],
     });
     logger.log(INFO, message, context);
 
@@ -342,7 +359,7 @@ describe('new Logger(options)', () => {
     });
     describe(`with context = "${context}"`, () => {
       it('should log the message with context', () => {
-        expect(logEvent.context).toBe(context);
+        expect(logEvent.context.color).toBe(context.color);
       });
     });
   });
@@ -381,7 +398,9 @@ describe('new Logger(options)', () => {
       const logger = new Logger({
         active: true,
         level: WARN,
-        outputs: [(event) => { logEvent = event; }],
+        outputs: [(event) => {
+          logEvent = event;
+        }],
       });
       logger.warn(message);
       expect(logEvent).not.toBeNull();

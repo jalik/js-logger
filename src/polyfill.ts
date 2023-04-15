@@ -1,6 +1,6 @@
 /*
  * The MIT License (MIT)
- * Copyright (c) 2021 Karl STEIN
+ * Copyright (c) 2023 Karl STEIN
  */
 
 // Add polyfill methods to the console object

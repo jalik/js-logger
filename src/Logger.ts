@@ -1,0 +1,199 @@
+/*
+ * The MIT License (MIT)
+ * Copyright (c) 2023 Karl STEIN
+ */
+
+import levels, { DEBUG, ERROR, FATAL, INFO, WARN } from './levels';
+import consoleOutput from './outputs/consoleOutput';
+import { getErrorDetails, LogEvent, LogEventContext } from './util';
+
+export interface LoggerOptions {
+  active?: boolean;
+  defaultContext?: LogEventContext;
+  filter?: (event: LogEvent<LogEventContext>) => boolean;
+  level?: string;
+  name?: string;
+  outputs?: Array<(ev: LogEvent<LogEventContext>) => void>;
+}
+
+class Logger {
+  private active: boolean;
+  private defaultContext?: LogEventContext;
+  private filter?: (event: LogEvent<LogEventContext>) => boolean;
+  private level: string;
+  private name?: string;
+  private outputs: Array<(ev: LogEvent<LogEventContext>) => void>;
+
+  constructor(options?: LoggerOptions) {
+    // Use default options.
+    const {
+      active,
+      defaultContext,
+      filter,
+      level,
+      name,
+      outputs,
+    }: LoggerOptions = {
+      active: true,
+      level: INFO,
+      outputs: [consoleOutput()],
+      ...options,
+    };
+
+    // Set logger status.
+    this.active = active;
+
+    // Set default log context.
+    this.defaultContext = defaultContext;
+
+    // Set logs filter.
+    this.filter = filter;
+
+    // Set minimal log level.
+    this.level = level;
+
+    // Set logger name.
+    this.name = name == null ? `logger_${Date.now()}` : String(name);
+
+    // Set log outputs.
+    this.outputs = [...outputs];
+
+    if (this.outputs.length === 0) {
+      throw new Error('Logger outputs cannot be empty.');
+    }
+  }
+
+  /**
+   * Logs a debug message.
+   * @param message
+   * @param context
+   */
+  debug(message: string, context?: LogEventContext): void {
+    this.log(DEBUG, message, context);
+  }
+
+  /**
+   * Logs an error message.
+   * @param messageOrError
+   * @param context
+   */
+  error(messageOrError: string | Error, context?: LogEventContext): void {
+    const ctx: LogEventContext = { ...context };
+    let message: string;
+
+    if (messageOrError instanceof Error) {
+      message = messageOrError.message;
+      ctx.error = getErrorDetails(messageOrError);
+    } else {
+      message = messageOrError;
+    }
+    this.log(ERROR, message, ctx);
+  }
+
+  /**
+   * Logs a fatal error message.
+   * @param messageOrError
+   * @param context
+   */
+  fatal(messageOrError: string | Error, context?: LogEventContext): void {
+    const ctx: LogEventContext = { ...context };
+    let message: string;
+
+    if (messageOrError instanceof Error) {
+      message = messageOrError.message;
+      ctx.error = getErrorDetails(messageOrError);
+    } else {
+      message = messageOrError;
+    }
+    this.log(FATAL, message, ctx);
+  }
+
+  /**
+   * Returns the log level.
+   */
+  getLevel(): string {
+    return this.level;
+  }
+
+  /**
+   * Returns the logger name.
+   */
+  getName(): string | undefined {
+    return this.name;
+  }
+
+  /**
+   * Logs an informational message.
+   * @param message
+   * @param context
+   */
+  info(message: string, context ?: LogEventContext): void {
+    this.log(INFO, message, context);
+  }
+
+  /**
+   * Checks if the logging is active.
+   */
+  isActive(): boolean {
+    return this.active;
+  }
+
+  /**
+   * Logs a message with a certain level.
+   * @param level
+   * @param message
+   * @param context
+   */
+  log(level: string, message: string, context?: LogEventContext): void {
+    // Ignore if logger is not active or if log level is higher.
+    if (!this.isActive() || levels.indexOf(this.level) > levels.indexOf(level)) {
+      return;
+    }
+
+    // Prepare log event.
+    const event: LogEvent<LogEventContext> = {
+      context: { ...this.defaultContext, ...context },
+      level,
+      logger: this.name,
+      message,
+      timestamp: Date.now(),
+    };
+
+    // Filter log event.
+    if (this.filter && !this.filter(event)) {
+      return;
+    }
+
+    // Pass log event to outputs.
+    this.outputs.forEach((output) => {
+      output(event);
+    });
+  }
+
+  /**
+   * Enables or disables logging.
+   * @param active
+   */
+  setActive(active: boolean): void {
+    this.active = active;
+  }
+
+  /**
+   * Changes the log level.
+   * @param level
+   */
+  setLevel(level: string): void {
+    this.level = level;
+  }
+
+  /**
+   * Logs a warning message.
+   * @param message
+   * @param context
+   */
+  warn(message: string, context?: LogEventContext): void {
+    this.log(WARN, message, context);
+  }
+}
+
+export default Logger;

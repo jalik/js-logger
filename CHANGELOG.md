@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.1.0 (2023-04-14)
+
+- Added TypeScript declaration files
+
 ## v3.0.4 (2022-10-18)
 
 - Upgraded dependencies

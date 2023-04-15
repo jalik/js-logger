@@ -1,13 +1,9 @@
 /*
  * The MIT License (MIT)
- * Copyright (c) 2022 Karl STEIN
+ * Copyright (c) 2023 Karl STEIN
  */
 
-import {
-  describe,
-  expect,
-  it,
-} from '@jest/globals';
+import { describe, expect, it } from '@jest/globals';
 import { getErrorDetails } from '../src/util';
 
 describe('getErrorDetails()', () => {

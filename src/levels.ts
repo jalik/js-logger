@@ -1,6 +1,6 @@
 /*
  * The MIT License (MIT)
- * Copyright (c) 2021 Karl STEIN
+ * Copyright (c) 2023 Karl STEIN
  */
 
 export const DEBUG = 'debug';
@@ -11,9 +11,8 @@ export const WARN = 'warn';
 
 /**
  * Log levels ordered by importance and granularity (less to most).
- * @type {(string)[]}
  */
-const levels = [
+const levels: string[] = [
   DEBUG,
   INFO,
   WARN,

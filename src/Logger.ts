@@ -17,12 +17,12 @@ export interface LoggerOptions {
 }
 
 class Logger {
-  private active: boolean;
-  private defaultContext?: LogEventContext;
-  private filter?: (event: LogEvent<LogEventContext>) => boolean;
-  private level: string;
-  private name?: string;
-  private outputs: Array<(ev: LogEvent<LogEventContext>) => void>;
+  public active: boolean;
+  public defaultContext?: LogEventContext;
+  public filter?: (event: LogEvent<LogEventContext>) => boolean;
+  public level: string;
+  public name?: string;
+  public outputs: Array<(ev: LogEvent<LogEventContext>) => void>;
 
   constructor(options?: LoggerOptions) {
     // Use default options.

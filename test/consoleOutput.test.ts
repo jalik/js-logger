@@ -6,6 +6,7 @@
 import { describe, expect, it } from '@jest/globals';
 import { DEBUG, Logger } from '../src';
 import consoleOutput from '../src/outputs/consoleOutput';
+import { LogEventContext } from '../src/util';
 
 function createPayload() {
   return {
@@ -16,7 +17,10 @@ function createPayload() {
 
 describe('new Logger({ outputs: [ consoleOutput() ] })', () => {
   const entries = [];
-  const formatter = ({ message, context }) => JSON.stringify({ message, context });
+  const formatter = ({ message, context }: { message: string, context?: LogEventContext }) => JSON.stringify({
+    message,
+    context,
+  });
 
   const output = consoleOutput({
     entries,

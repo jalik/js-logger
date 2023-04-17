@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.1.2 (2023-04-17)
+
+- Fixed scope of `Logger` class members
+
 ## v3.1.1 (2023-04-14)
 
 - Added missing dev dependency (rimraf)

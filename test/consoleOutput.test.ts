@@ -107,4 +107,68 @@ describe('new Logger({ outputs: [ consoleOutput() ] })', () => {
       expect(log.message).toBe(formatter(payload));
     });
   });
+
+  describe('logger.log(DEBUG, string, string)', () => {
+    it('should send a DEBUG event to console', () => {
+      const payload = createPayload();
+      const { message, context } = payload;
+      logger.log(DEBUG, message, context);
+      const log = logs.pop();
+      expect(log).toBeDefined();
+      expect(log.level).toBe(DEBUG);
+      expect(log.message).toBe(formatter(payload));
+    });
+  });
+
+  describe('logger.log("other", string, string)', () => {
+    // Add custom log level
+    levels.push('other');
+    it('should send event to console', () => {
+      const payload = createPayload();
+      const { message, context } = payload;
+      logger.log('other', message, context);
+      const log = logs.pop();
+      expect(log).toBeDefined();
+      expect(log.level).toBe(DEBUG);
+      expect(log.message).toBe(formatter(payload));
+    });
+  });
+});
+
+describe('consoleOutput({ formatter: null | undefined })', () => {
+  it('should throw an error', () => {
+    expect(() => {
+      consoleOutput({ formatter: null });
+    }).toThrow();
+    expect(() => {
+      consoleOutput({ formatter: undefined });
+    }).toThrow();
+  });
+});
+
+describe('defaultFormatter(event)', () => {
+  const event = {
+    level: INFO,
+    timestamp: Date.now(),
+    logger: 'test',
+    message: 'ok',
+    context: { pass: true },
+  };
+  const { level, message, logger, timestamp, context } = event;
+
+  describe('with context', () => {
+    it('should return formatted event with context', () => {
+      expect(defaultFormatter(event))
+        .toBe(`${new Date(timestamp).toISOString()} ${level.toUpperCase()} [${logger}] : ${message} ; ${JSON.stringify(context)}`);
+    });
+  });
+
+  describe('without context', () => {
+    it('should return formatted event without context', () => {
+      const copyWithoutContext = { ...event };
+      delete copyWithoutContext.context;
+      expect(defaultFormatter(copyWithoutContext))
+        .toBe(`${new Date(timestamp).toISOString()} ${level.toUpperCase()} [${logger}] : ${message}`);
+    });
+  });
 });

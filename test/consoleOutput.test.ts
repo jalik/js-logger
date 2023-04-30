@@ -171,4 +171,12 @@ describe('defaultFormatter(event)', () => {
         .toBe(`${new Date(timestamp).toISOString()} ${level.toUpperCase()} [${logger}] : ${message}`);
     });
   });
+
+  describe('with empty context', () => {
+    it('should return formatted event without context', () => {
+      const copyEmptyContext = { ...event, context: {} };
+      expect(defaultFormatter(copyEmptyContext))
+        .toBe(`${new Date(timestamp).toISOString()} ${level.toUpperCase()} [${logger}] : ${message}`);
+    });
+  });
 });

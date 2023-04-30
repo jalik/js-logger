@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.1.4 (2023-04-30)
+
+- Removed empty context `{}` from formatted log messages in `defaultFormatter()`
+
 ## v3.1.3 (2023-04-30)
 
 - Fixed console logs output not showing in console

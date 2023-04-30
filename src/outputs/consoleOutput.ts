@@ -17,7 +17,7 @@ export function defaultFormatter(event: LogEvent<LogEventContext>): string {
 
   let out = `${new Date(timestamp).toISOString()} ${level.toUpperCase()} [${logger}] : ${message}`;
 
-  if (context) {
+  if (context && Object.keys(context).length > 0) {
     out += ` ; ${JSON.stringify(context)}`;
   }
   return out;

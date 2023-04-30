@@ -3,10 +3,26 @@
  * Copyright (c) 2023 Karl STEIN
  */
 
-import { describe, expect, it } from '@jest/globals';
-import { DEBUG, Logger } from '../src';
-import consoleOutput from '../src/outputs/consoleOutput';
+import { describe, expect, it, jest } from '@jest/globals';
+import { DEBUG, ERROR, INFO, Logger, WARN } from '../src';
+import levels from '../src/levels';
+import consoleOutput, { defaultFormatter } from '../src/outputs/consoleOutput';
 import { LogEventContext } from '../src/util';
+
+const logs = [];
+
+function saveLog(level: string) {
+  return (message: string) => {
+    logs.push({ level, message });
+  };
+}
+
+// Disable console logs output
+console.debug = jest.fn(saveLog(DEBUG));
+console.error = jest.fn(saveLog(ERROR));
+console.info = jest.fn(saveLog(INFO));
+console.log = jest.fn(saveLog(DEBUG));
+console.warn = jest.fn(saveLog(WARN));
 
 function createPayload() {
   return {
@@ -16,14 +32,12 @@ function createPayload() {
 }
 
 describe('new Logger({ outputs: [ consoleOutput() ] })', () => {
-  const entries = [];
   const formatter = ({ message, context }: { message: string, context?: LogEventContext }) => JSON.stringify({
     message,
     context,
   });
 
   const output = consoleOutput({
-    entries,
     formatter,
   });
 
@@ -35,47 +49,62 @@ describe('new Logger({ outputs: [ consoleOutput() ] })', () => {
   });
 
   describe('logger.debug(string, string)', () => {
-    it('should send event to console', () => {
+    it('should senda DEBUG event to console', () => {
       const payload = createPayload();
       const { message, context } = payload;
       logger.debug(message, context);
-      expect(entries.pop()).toBe(formatter(payload));
+      const log = logs.pop();
+      expect(log).toBeDefined();
+      expect(log.level).toBe(DEBUG);
+      expect(log.message).toBe(formatter(payload));
     });
   });
 
   describe('logger.error(string, string)', () => {
-    it('should send event to console', () => {
+    it('should send an ERROR event to console', () => {
       const payload = createPayload();
       const { message, context } = payload;
       logger.error(message, context);
-      expect(entries.pop()).toBe(formatter(payload));
+      const log = logs.pop();
+      expect(log).toBeDefined();
+      expect(log.level).toBe(ERROR);
+      expect(log.message).toBe(formatter(payload));
     });
   });
 
   describe('logger.fatal(string, string)', () => {
-    it('should send event to console', () => {
+    it('should send a FATAL event to console', () => {
       const payload = createPayload();
       const { message, context } = payload;
       logger.fatal(message, context);
-      expect(entries.pop()).toBe(formatter(payload));
+      const log = logs.pop();
+      expect(log).toBeDefined();
+      expect(log.level).toBe(ERROR);
+      expect(log.message).toBe(formatter(payload));
     });
   });
 
   describe('logger.info(string, string)', () => {
-    it('should send event to console', () => {
+    it('should send an INFO event to console', () => {
       const payload = createPayload();
       const { message, context } = payload;
       logger.info(message, context);
-      expect(entries.pop()).toBe(formatter(payload));
+      const log = logs.pop();
+      expect(log).toBeDefined();
+      expect(log.level).toBe(INFO);
+      expect(log.message).toBe(formatter(payload));
     });
   });
 
   describe('logger.warn(string, string)', () => {
-    it('should send event to console', () => {
+    it('should send a WARN event to console', () => {
       const payload = createPayload();
       const { message, context } = payload;
       logger.warn(message, context);
-      expect(entries.pop()).toBe(formatter(payload));
+      const log = logs.pop();
+      expect(log).toBeDefined();
+      expect(log.level).toBe(WARN);
+      expect(log.message).toBe(formatter(payload));
     });
   });
 });

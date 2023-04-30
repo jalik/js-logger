@@ -34,23 +34,15 @@ export interface consoleOutputOptions {
  */
 function consoleOutput(options?: consoleOutputOptions): (ev: LogEvent<LogEventContext>) => void {
   const {
-    entries,
     formatter,
   } = {
-    entries: [],
     formatter: defaultFormatter,
     ...options,
   };
 
-  const harvest = (message: string) => {
-    entries.push(message);
-  };
-
-  const debug = entries ? harvest : console.debug || console.log;
-  const error = entries ? harvest : console.error || console.log;
-  const fatal = entries ? harvest : console.error || console.log;
-  const info = entries ? harvest : console.info || console.log;
-  const warn = entries ? harvest : console.warn || console.log;
+  if (!formatter) {
+    throw new Error('consoleOutput\'s formatter option must be a function');
+  }
 
   return (event: LogEvent<LogEventContext>): void => {
     const { level } = event;
@@ -59,15 +51,17 @@ function consoleOutput(options?: consoleOutputOptions): (ev: LogEvent<LogEventCo
     const output = formatter(event);
 
     if (level === DEBUG) {
-      debug(output);
-    } else if (level === INFO) {
-      info(output);
-    } else if (level === WARN) {
-      warn(output);
+      console.debug(output);
     } else if (level === ERROR) {
-      error(output);
+      console.error(output);
     } else if (level === FATAL) {
-      fatal(output);
+      console.error(output);
+    } else if (level === INFO) {
+      console.info(output);
+    } else if (level === WARN) {
+      console.warn(output);
+    } else {
+      console.log(output);
     }
   };
 }

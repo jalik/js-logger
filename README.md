@@ -62,7 +62,7 @@ important**).
 - `error`: used for error messages
 - `fatal`: used for fatal error messages
 
-They can be imported via constants.
+Levels can be imported individually.
 
 ```js
 import {
@@ -74,7 +74,7 @@ import {
 } from '@jalik/logger';
 ```
 
-The ordered levels can also be imported as an array.
+Levels can also be imported as an array.
 
 ```js
 import { levels } from '@jalik/logger';

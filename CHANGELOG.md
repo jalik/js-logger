@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.1.3 (2023-04-30)
+
+- Fixed console logs output not showing in console
+
 ## v3.1.2 (2023-04-17)
 
 - Fixed scope of `Logger` class members

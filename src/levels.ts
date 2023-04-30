@@ -10,7 +10,7 @@ export const INFO = 'info';
 export const WARN = 'warn';
 
 /**
- * Log levels ordered by importance and granularity (less to most).
+ * Log levels ordered by severity (less to more).
  */
 const levels: string[] = [
   DEBUG,

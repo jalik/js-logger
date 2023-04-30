@@ -9,11 +9,11 @@ import consoleOutput from './outputs/consoleOutput';
 
 export {
   DEBUG,
-  INFO,
-  WARN,
   ERROR,
   FATAL,
-  levels,
+  INFO,
+  WARN,
   consoleOutput,
+  levels,
   Logger,
 };

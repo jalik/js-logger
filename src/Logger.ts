@@ -3,9 +3,10 @@
  * Copyright (c) 2023 Karl STEIN
  */
 
-import levels, { DEBUG, ERROR, FATAL, INFO, WARN } from './levels';
-import consoleOutput from './outputs/consoleOutput';
-import { getErrorDetails, LogEvent, LogEventContext } from './util';
+import { LogEvent, LogEventContext } from './event'
+import levels, { DEBUG, ERROR, FATAL, INFO, WARN } from './levels'
+import consoleOutput from './outputs/consoleOutput'
+import { getErrorDetails } from './util'
 
 export interface LoggerOptions {
   /**
@@ -39,14 +40,19 @@ export interface LoggerOptions {
 }
 
 class Logger {
-  public active: boolean;
-  public defaultContext?: LogEventContext;
-  public filter?: (event: LogEvent<LogEventContext>) => boolean;
-  public level: string;
-  public name?: string;
-  public outputs: Array<(ev: LogEvent<LogEventContext>) => void>;
+  public active: boolean
 
-  constructor(options?: LoggerOptions) {
+  public defaultContext?: LogEventContext
+
+  public filter?: (event: LogEvent<LogEventContext>) => boolean
+
+  public level: string
+
+  public name: string
+
+  public outputs: Array<(ev: LogEvent<LogEventContext>) => void>
+
+  constructor (options?: LoggerOptions) {
     // Use default options.
     const {
       active,
@@ -60,28 +66,28 @@ class Logger {
       level: INFO,
       outputs: [consoleOutput()],
       ...options,
-    };
+    }
 
     // Set logger status.
-    this.active = active;
+    this.active = active
 
     // Set default log context.
-    this.defaultContext = defaultContext;
+    this.defaultContext = defaultContext
 
     // Set logs filter.
-    this.filter = filter;
+    this.filter = filter
 
     // Set minimal log level.
-    this.level = level;
+    this.level = level
 
     // Set logger name.
-    this.name = name == null ? `logger_${Date.now()}` : String(name);
+    this.name = name == null ? `logger_${Date.now()}` : String(name)
 
     // Set log outputs.
-    this.outputs = [...outputs];
+    this.outputs = [...outputs]
 
     if (this.outputs.length === 0) {
-      throw new Error('Logger outputs cannot be empty.');
+      throw new Error('Logger outputs cannot be empty.')
     }
   }
 
@@ -90,8 +96,8 @@ class Logger {
    * @param message
    * @param context
    */
-  debug(message: string, context?: LogEventContext): void {
-    this.log(DEBUG, message, context);
+  debug (message: string, context?: LogEventContext): void {
+    this.log(DEBUG, message, context)
   }
 
   /**
@@ -99,17 +105,17 @@ class Logger {
    * @param messageOrError
    * @param context
    */
-  error(messageOrError: string | Error, context?: LogEventContext): void {
-    const ctx: LogEventContext = { ...context };
-    let message: string;
+  error (messageOrError: string | Error, context?: LogEventContext): void {
+    const ctx: LogEventContext = { ...context }
+    let message: string
 
     if (messageOrError instanceof Error) {
-      message = messageOrError.message;
-      ctx.error = getErrorDetails(messageOrError);
+      message = messageOrError.message
+      ctx.error = getErrorDetails(messageOrError)
     } else {
-      message = messageOrError;
+      message = messageOrError
     }
-    this.log(ERROR, message, ctx);
+    this.log(ERROR, message, ctx)
   }
 
   /**
@@ -117,31 +123,31 @@ class Logger {
    * @param messageOrError
    * @param context
    */
-  fatal(messageOrError: string | Error, context?: LogEventContext): void {
-    const ctx: LogEventContext = { ...context };
-    let message: string;
+  fatal (messageOrError: string | Error, context?: LogEventContext): void {
+    const ctx: LogEventContext = { ...context }
+    let message: string
 
     if (messageOrError instanceof Error) {
-      message = messageOrError.message;
-      ctx.error = getErrorDetails(messageOrError);
+      message = messageOrError.message
+      ctx.error = getErrorDetails(messageOrError)
     } else {
-      message = messageOrError;
+      message = messageOrError
     }
-    this.log(FATAL, message, ctx);
+    this.log(FATAL, message, ctx)
   }
 
   /**
    * Returns the log level.
    */
-  getLevel(): string {
-    return this.level;
+  getLevel (): string {
+    return this.level
   }
 
   /**
    * Returns the logger name.
    */
-  getName(): string | undefined {
-    return this.name;
+  getName (): string {
+    return this.name
   }
 
   /**
@@ -149,15 +155,15 @@ class Logger {
    * @param message
    * @param context
    */
-  info(message: string, context ?: LogEventContext): void {
-    this.log(INFO, message, context);
+  info (message: string, context ?: LogEventContext): void {
+    this.log(INFO, message, context)
   }
 
   /**
    * Checks if the logging is active.
    */
-  isActive(): boolean {
-    return this.active;
+  isActive (): boolean {
+    return this.active
   }
 
   /**
@@ -166,10 +172,10 @@ class Logger {
    * @param message
    * @param context
    */
-  log(level: string, message: string, context?: LogEventContext): void {
+  log (level: string, message: string, context?: LogEventContext): void {
     // Ignore if logger is not active or if log level is higher.
     if (!this.isActive() || levels.indexOf(this.level) > levels.indexOf(level)) {
-      return;
+      return
     }
 
     // Prepare log event.
@@ -179,33 +185,33 @@ class Logger {
       logger: this.name,
       message,
       timestamp: Date.now(),
-    };
+    }
 
     // Filter log event.
     if (this.filter && !this.filter(event)) {
-      return;
+      return
     }
 
     // Pass log event to outputs.
     this.outputs.forEach((output) => {
-      output(event);
-    });
+      output(event)
+    })
   }
 
   /**
    * Enables or disables logging.
    * @param active
    */
-  setActive(active: boolean): void {
-    this.active = active;
+  setActive (active: boolean): void {
+    this.active = active
   }
 
   /**
    * Changes the log level.
    * @param level
    */
-  setLevel(level: string): void {
-    this.level = level;
+  setLevel (level: string): void {
+    this.level = level
   }
 
   /**
@@ -213,9 +219,9 @@ class Logger {
    * @param message
    * @param context
    */
-  warn(message: string, context?: LogEventContext): void {
-    this.log(WARN, message, context);
+  warn (message: string, context?: LogEventContext): void {
+    this.log(WARN, message, context)
   }
 }
 
-export default Logger;
+export default Logger

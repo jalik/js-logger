@@ -3,11 +3,11 @@
  * Copyright (c) 2023 Karl STEIN
  */
 
-import { defaultFormatter } from '../formatter';
-import { DEBUG, ERROR, FATAL, INFO, WARN } from '../levels';
-import { LogEvent, LogEventContext } from '../util';
+import { LogEvent, LogEventContext } from '../event'
+import { defaultFormatter } from '../formatter'
+import { DEBUG, ERROR, FATAL, INFO, WARN } from '../levels'
 
-export interface consoleOutputOptions {
+interface ConsoleOutputOptions {
   /**
    * The function used to format message.
    * @param event
@@ -19,38 +19,44 @@ export interface consoleOutputOptions {
  * Log events to the console.
  * @param options
  */
-function consoleOutput(options?: consoleOutputOptions): (ev: LogEvent<LogEventContext>) => void {
+function consoleOutput (options?: ConsoleOutputOptions): (ev: LogEvent<LogEventContext>) => void {
   const {
-    formatter,
+    formatter
   } = {
     formatter: defaultFormatter,
-    ...options,
-  };
+    ...options
+  }
 
   if (!formatter) {
-    throw new Error('consoleOutput\'s formatter option must be a function');
+    throw new Error('consoleOutput\'s formatter option must be a function')
   }
 
   return (event: LogEvent<LogEventContext>): void => {
-    const { level } = event;
+    const { level } = event
 
     // Prepare output.
-    const message = formatter(event);
+    const message = formatter(event)
 
     if (level === DEBUG) {
-      console.debug(message);
+      // eslint-disable-next-line no-console
+      console.debug(message)
     } else if (level === ERROR) {
-      console.error(message);
+      // eslint-disable-next-line no-console
+      console.error(message)
     } else if (level === FATAL) {
-      console.error(message);
+      // eslint-disable-next-line no-console
+      console.error(message)
     } else if (level === INFO) {
-      console.info(message);
+      // eslint-disable-next-line no-console
+      console.info(message)
     } else if (level === WARN) {
-      console.warn(message);
+      // eslint-disable-next-line no-console
+      console.warn(message)
     } else {
-      console.log(message);
+      // eslint-disable-next-line no-console
+      console.log(message)
     }
-  };
+  }
 }
 
-export default consoleOutput;
+export default consoleOutput

@@ -3,9 +3,9 @@
  * Copyright (c) 2023 Karl STEIN
  */
 
-import * as fs from 'fs';
-import { defaultFormatter } from '../formatter';
-import { LogEvent, LogEventContext } from '../util';
+import * as fs from 'fs'
+import { LogEvent, LogEventContext } from '../event'
+import { defaultFormatter } from '../formatter'
 
 interface FileOutputOptions {
   /**
@@ -31,46 +31,46 @@ interface FileOutputOptions {
  * Log events to a file.
  * @param options
  */
-function fileOutput(options: FileOutputOptions): (ev: LogEvent<LogEventContext>) => void {
+function fileOutput (options: FileOutputOptions): (ev: LogEvent<LogEventContext>) => void {
   const {
     flushInterval,
     formatter,
     lineSeparator,
-    path,
+    path
   } = {
     formatter: defaultFormatter,
     lineSeparator: '\r\n',
-    ...options,
-  };
-
-  if (path == null || path == '') {
-    throw new Error('path option must not be null or empty');
+    ...options
   }
 
-  let buffer = '';
+  if (path == null || path === '') {
+    throw new Error('path option must not be null or empty')
+  }
+
+  let buffer = ''
 
   if (flushInterval) {
     setInterval(() => {
       if (buffer.length > 0) {
         // Write pending logs.
-        fs.appendFileSync(path, buffer, { encoding: 'utf-8' });
-        buffer = '';
+        fs.appendFileSync(path, buffer, { encoding: 'utf-8' })
+        buffer = ''
       }
-    }, flushInterval);
+    }, flushInterval)
   }
 
   return (event) => {
-    const message = formatter(event);
-    const line = `${message}${lineSeparator}`;
+    const message = formatter(event)
+    const line = `${message}${lineSeparator}`
 
     if (flushInterval) {
       // Put log in buffer.
-      buffer += line;
+      buffer += line
     } else {
       // Write log now.
-      fs.appendFileSync(path, line, { encoding: 'utf-8' });
+      fs.appendFileSync(path, line, { encoding: 'utf-8' })
     }
-  };
+  }
 }
 
-export default fileOutput;
+export default fileOutput

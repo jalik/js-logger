@@ -3,10 +3,10 @@
  * Copyright (c) 2023 Karl STEIN
  */
 
-import { defaultFormatter } from './formatter';
-import levels, { DEBUG, ERROR, FATAL, INFO, WARN } from './levels';
-import Logger from './Logger';
-import consoleOutput from './outputs/consoleOutput';
+import { defaultFormatter } from './formatter'
+import levels, { DEBUG, ERROR, FATAL, INFO, WARN } from './levels'
+import Logger from './Logger'
+import consoleOutput from './outputs/consoleOutput'
 
 export {
   DEBUG,
@@ -17,5 +17,5 @@ export {
   consoleOutput,
   defaultFormatter,
   levels,
-  Logger,
-};
+  Logger
+}

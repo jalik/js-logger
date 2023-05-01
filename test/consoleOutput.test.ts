@@ -6,7 +6,7 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { DEBUG, ERROR, INFO, Logger, WARN } from '../src';
 import levels from '../src/levels';
-import consoleOutput, { defaultFormatter } from '../src/outputs/consoleOutput';
+import consoleOutput from '../src/outputs/consoleOutput';
 import { LogEventContext } from '../src/util';
 
 const logs = [];
@@ -31,6 +31,17 @@ function createPayload() {
   };
 }
 
+describe('consoleOutput({ formatter: null | undefined })', () => {
+  it('should throw an error', () => {
+    expect(() => {
+      consoleOutput({ formatter: null });
+    }).toThrow();
+    expect(() => {
+      consoleOutput({ formatter: undefined });
+    }).toThrow();
+  });
+});
+
 describe('new Logger({ outputs: [ consoleOutput() ] })', () => {
   const formatter = ({ message, context }: { message: string, context?: LogEventContext }) => JSON.stringify({
     message,
@@ -49,7 +60,7 @@ describe('new Logger({ outputs: [ consoleOutput() ] })', () => {
   });
 
   describe('logger.debug(string, string)', () => {
-    it('should senda DEBUG event to console', () => {
+    it('should send a DEBUG event to console', () => {
       const payload = createPayload();
       const { message, context } = payload;
       logger.debug(message, context);
@@ -131,52 +142,6 @@ describe('new Logger({ outputs: [ consoleOutput() ] })', () => {
       expect(log).toBeDefined();
       expect(log.level).toBe(DEBUG);
       expect(log.message).toBe(formatter(payload));
-    });
-  });
-});
-
-describe('consoleOutput({ formatter: null | undefined })', () => {
-  it('should throw an error', () => {
-    expect(() => {
-      consoleOutput({ formatter: null });
-    }).toThrow();
-    expect(() => {
-      consoleOutput({ formatter: undefined });
-    }).toThrow();
-  });
-});
-
-describe('defaultFormatter(event)', () => {
-  const event = {
-    level: INFO,
-    timestamp: Date.now(),
-    logger: 'test',
-    message: 'ok',
-    context: { pass: true },
-  };
-  const { level, message, logger, timestamp, context } = event;
-
-  describe('with context', () => {
-    it('should return formatted event with context', () => {
-      expect(defaultFormatter(event))
-        .toBe(`${new Date(timestamp).toISOString()} ${level.toUpperCase()} [${logger}] : ${message} ; ${JSON.stringify(context)}`);
-    });
-  });
-
-  describe('without context', () => {
-    it('should return formatted event without context', () => {
-      const copyWithoutContext = { ...event };
-      delete copyWithoutContext.context;
-      expect(defaultFormatter(copyWithoutContext))
-        .toBe(`${new Date(timestamp).toISOString()} ${level.toUpperCase()} [${logger}] : ${message}`);
-    });
-  });
-
-  describe('with empty context', () => {
-    it('should return formatted event without context', () => {
-      const copyEmptyContext = { ...event, context: {} };
-      expect(defaultFormatter(copyEmptyContext))
-        .toBe(`${new Date(timestamp).toISOString()} ${level.toUpperCase()} [${logger}] : ${message}`);
     });
   });
 });

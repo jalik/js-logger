@@ -8,11 +8,33 @@ import consoleOutput from './outputs/consoleOutput';
 import { getErrorDetails, LogEvent, LogEventContext } from './util';
 
 export interface LoggerOptions {
+  /**
+   * Enable or disable the logger by default.
+   */
   active?: boolean;
+  /**
+   * Defines a default context to use for each log.
+   */
   defaultContext?: LogEventContext;
+  /**
+   * Allow filtering logs (this is called after the normal level filtering).
+   * Return false in the function to ignore a log event.
+   * @param event
+   */
   filter?: (event: LogEvent<LogEventContext>) => boolean;
+  /**
+   * The logs level filter to use.
+   * Log events with lower importance will be ignored (DEBUG < INFO < WARN < ERROR < FATAL).
+   */
   level?: string;
+  /**
+   * The logger name.
+   */
   name?: string;
+  /**
+   * The list of output handlers.
+   * All handlers are called one after the other.
+   */
   outputs?: Array<(ev: LogEvent<LogEventContext>) => void>;
 }
 

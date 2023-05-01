@@ -4,10 +4,10 @@
  */
 
 import { describe, expect, it, jest } from '@jest/globals';
-import { DEBUG, ERROR, INFO, Logger, WARN } from '../src';
-import levels from '../src/levels';
-import consoleOutput from '../src/outputs/consoleOutput';
-import { LogEventContext } from '../src/util';
+import { DEBUG, ERROR, INFO, Logger, WARN } from '../../src';
+import levels from '../../src/levels';
+import consoleOutput from '../../src/outputs/consoleOutput';
+import { LogEventContext } from '../../src/util';
 
 const logs = [];
 

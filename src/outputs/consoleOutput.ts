@@ -8,12 +8,15 @@ import { DEBUG, ERROR, FATAL, INFO, WARN } from '../levels';
 import { LogEvent, LogEventContext } from '../util';
 
 export interface consoleOutputOptions {
-  entries?: string[],
+  /**
+   * The function used to format message.
+   * @param event
+   */
   formatter?: (event: LogEvent<LogEventContext>) => string;
 }
 
 /**
- * Console logger.
+ * Log events to the console.
  * @param options
  */
 function consoleOutput(options?: consoleOutputOptions): (ev: LogEvent<LogEventContext>) => void {
@@ -32,20 +35,20 @@ function consoleOutput(options?: consoleOutputOptions): (ev: LogEvent<LogEventCo
     const { level } = event;
 
     // Prepare output.
-    const output = formatter(event);
+    const message = formatter(event);
 
     if (level === DEBUG) {
-      console.debug(output);
+      console.debug(message);
     } else if (level === ERROR) {
-      console.error(output);
+      console.error(message);
     } else if (level === FATAL) {
-      console.error(output);
+      console.error(message);
     } else if (level === INFO) {
-      console.info(output);
+      console.info(message);
     } else if (level === WARN) {
-      console.warn(output);
+      console.warn(message);
     } else {
-      console.log(output);
+      console.log(message);
     }
   };
 }

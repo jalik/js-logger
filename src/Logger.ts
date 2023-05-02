@@ -60,12 +60,12 @@ class Logger {
       filter,
       level,
       name,
-      outputs,
+      outputs
     }: LoggerOptions = {
       active: true,
       level: INFO,
       outputs: [consoleOutput()],
-      ...options,
+      ...options
     }
 
     // Set logger status.
@@ -184,7 +184,7 @@ class Logger {
       level,
       logger: this.name,
       message,
-      timestamp: Date.now(),
+      timestamp: Date.now()
     }
 
     // Filter log event.

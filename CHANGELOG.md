@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.2.0 (2023-05-01)
+
+- Added `fileOutput()` to save logs to a local file (NodeJS only)
+
 ## v3.1.4 (2023-04-30)
 
 - Removed empty context `{}` from formatted log messages in `defaultFormatter()`

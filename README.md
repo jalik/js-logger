@@ -19,11 +19,21 @@ Easy and customizable logging for your apps.
 * Ability to pass a context for each log event
 * Ability to set a default context for log events
 * Use of standards logging levels (debug, info, warning, error, fatal)
+* TypeScript declarations ♥
 
 ## Sandbox
 
 Play with the lib here:
 https://codesandbox.io/s/jalik-logger-default-example-75o5hx
+
+## Installing
+
+```shell
+npm i -P @jalik/logger
+```
+```shell
+yarn add @jalik/logger
+```
 
 ## Creating a logger
 

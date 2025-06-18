@@ -1,5 +1,10 @@
 # Changelog
 
+## v3.3.0 (2025-06-17)
+
+- refactor: export `LoggerOptions` from package
+- deps: upgrade dependencies
+
 ## v3.2.0 (2023-05-01)
 
 - Added `fileOutput()` to save logs to a local file (NodeJS only)

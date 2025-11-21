@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.3.1 (2025-11-21)
+
+- deps: upgrade dependencies
+
 ## v3.3.0 (2025-06-17)
 
 - refactor: export `LoggerOptions` from package

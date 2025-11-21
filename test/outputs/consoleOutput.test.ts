@@ -1,9 +1,9 @@
 /*
  * The MIT License (MIT)
- * Copyright (c) 2023 Karl STEIN
+ * Copyright (c) 2025 Karl STEIN
  */
 
-import { describe, expect, it, jest } from '@jest/globals'
+import { describe, expect, it, vi } from 'vitest'
 import { DEBUG, ERROR, INFO, Logger, WARN } from '../../src'
 import { LogEventContext } from '../../src/event'
 import levels from '../../src/levels'
@@ -20,15 +20,15 @@ function saveLog (level: string) {
 // Disable console logs output.
 
 // eslint-disable-next-line no-console
-console.debug = jest.fn(saveLog(DEBUG))
+console.debug = vi.fn(saveLog(DEBUG))
 // eslint-disable-next-line no-console
-console.error = jest.fn(saveLog(ERROR))
+console.error = vi.fn(saveLog(ERROR))
 // eslint-disable-next-line no-console
-console.info = jest.fn(saveLog(INFO))
+console.info = vi.fn(saveLog(INFO))
 // eslint-disable-next-line no-console
-console.log = jest.fn(saveLog(DEBUG))
+console.log = vi.fn(saveLog(DEBUG))
 // eslint-disable-next-line no-console
-console.warn = jest.fn(saveLog(WARN))
+console.warn = vi.fn(saveLog(WARN))
 
 function createPayload () {
   return {

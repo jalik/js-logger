@@ -1,6 +1,6 @@
 /*
  * The MIT License (MIT)
- * Copyright (c) 2023 Karl STEIN
+ * Copyright (c) 2025 Karl STEIN
  */
 
 import { describe, expect, it, vi } from 'vitest'
@@ -75,14 +75,14 @@ describe('new Logger(options)', () => {
       )
 
       it('should log events matching the filter', () => {
-        const output = jest.fn()
+        const output = vi.fn()
         const logger = createLogger(output)
         logger.info('Executed cron jobs', { tag: 'cron' })
         expect(output).toHaveBeenCalledTimes(1)
       })
 
       it('should not log events not matching the filter', () => {
-        const output = jest.fn()
+        const output = vi.fn()
         const logger = createLogger(output)
         logger.info('Application started')
         expect(output).not.toHaveBeenCalled()

@@ -1,9 +1,9 @@
 /*
  * The MIT License (MIT)
- * Copyright (c) 2023 Karl STEIN
+ * Copyright (c) 2025 Karl STEIN
  */
 
-import { describe, expect, it } from '@jest/globals'
+import { describe, expect, it } from 'vitest'
 import { defaultFormatter, INFO } from '../src'
 import { LogEvent, LogEventContext } from '../src/event'
 

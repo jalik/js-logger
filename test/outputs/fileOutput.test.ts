@@ -1,17 +1,17 @@
 /*
  * The MIT License (MIT)
- * Copyright (c) 2023 Karl STEIN
+ * Copyright (c) 2025 Karl STEIN
  */
 
-import { afterAll, describe, expect, it, jest } from '@jest/globals'
 import * as fs from 'fs'
+import { afterAll, describe, expect, it, vi } from 'vitest'
 import { INFO } from '../../src'
 import { LogEvent, LogEventContext } from '../../src/event'
 import fileOutput from '../../src/outputs/fileOutput'
 
 // Replace setInterval() with fake timer.
-jest.useFakeTimers()
-jest.spyOn(global, 'setInterval')
+vi.useFakeTimers()
+vi.spyOn(global, 'setInterval')
 
 const formatter = JSON.stringify
 const lineSeparator = '\n'
@@ -86,15 +86,15 @@ describe('fileOutput({ path: "logs.txt", flushInterval: number })(event)', () =>
   })
 
   it('should call setInterval() with flushInterval as interval', () => {
-    // jest.runAllTimers();
-    // jest.runOnlyPendingTimers();
+    // vi.runAllTimers();
+    // vi.runOnlyPendingTimers();
     expect(setInterval).toHaveBeenCalledTimes(1)
   })
 
   it('should not write events to the file before the flushInterval', async () => {
     const event = createEvent()
     output(event)
-    jest.advanceTimersByTime(Math.round(flushInterval / 2))
+    vi.advanceTimersByTime(Math.round(flushInterval / 2))
     const logs = await fs.promises.readFile(path, { encoding: 'utf-8' })
     const lastEntry = getLastEntry(logs)
     expect(lastEntry).not.toBe(formatter(event))
@@ -103,7 +103,7 @@ describe('fileOutput({ path: "logs.txt", flushInterval: number })(event)', () =>
   it('should write events to the file after the flushInterval', async () => {
     const event = { ...createEvent(), message: 'xxx' }
     output(event)
-    jest.advanceTimersByTime(flushInterval * 2)
+    vi.advanceTimersByTime(flushInterval * 2)
     const logs = await fs.promises.readFile(path, { encoding: 'utf-8' })
     const lastEntry = getLastEntry(logs)
     expect(lastEntry).toBe(formatter(event))

@@ -326,7 +326,7 @@ The file output writes log events to a file, so it can only be used on NodeJS.
 
 ```js
 import {  Logger,} from '@jalik/logger';
-import fileOutput from '@jalik/logger/dist/outputs/fileOutput.js'
+import { fileOutput } from '@jalik/logger';
 
 const logger = new Logger({
   name: 'main',

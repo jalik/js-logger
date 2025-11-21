@@ -1,9 +1,9 @@
 /*
  * The MIT License (MIT)
- * Copyright (c) 2023 Karl STEIN
+ * Copyright (c) 2025 Karl STEIN
  */
 
-import * as fs from 'fs'
+import fs from 'node:fs'
 import { LogEvent, LogEventContext } from '../event'
 import { defaultFormatter } from '../formatter'
 

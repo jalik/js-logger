@@ -3,9 +3,10 @@
  * Copyright (c) 2023 Karl STEIN
  */
 
-import { describe, expect, it, jest } from '@jest/globals'
+import { describe, expect, it, vi } from 'vitest'
 import { DEBUG, ERROR, FATAL, INFO, Logger, WARN } from '../src'
 import { LogEvent, LogEventContext } from '../src/event'
+import { LoggerOutput } from '../src/Logger'
 
 describe('Logger', () => {
   it('should be importable from package', () => {
@@ -64,7 +65,7 @@ describe('new Logger(options)', () => {
 
   describe('with options.filter', () => {
     describe('with options.filter = function', () => {
-      const createLogger = (output) => (
+      const createLogger = (output: LoggerOutput) => (
         new Logger({
           active: true,
           filter: (event): boolean => event.context?.tag === 'cron',

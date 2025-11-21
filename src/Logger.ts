@@ -1,12 +1,14 @@
 /*
  * The MIT License (MIT)
- * Copyright (c) 2023 Karl STEIN
+ * Copyright (c) 2025 Karl STEIN
  */
 
 import { LogEvent, LogEventContext } from './event'
 import levels, { DEBUG, ERROR, FATAL, INFO, WARN } from './levels'
 import consoleOutput from './outputs/consoleOutput'
 import { getErrorDetails } from './util'
+
+export type LoggerOutput = (ev: LogEvent<LogEventContext>) => void
 
 export interface LoggerOptions {
   /**
@@ -36,7 +38,7 @@ export interface LoggerOptions {
    * The list of output handlers.
    * All handlers are called one after the other.
    */
-  outputs?: Array<(ev: LogEvent<LogEventContext>) => void>;
+  outputs?: LoggerOutput[];
 }
 
 class Logger {
@@ -50,7 +52,7 @@ class Logger {
 
   public name: string
 
-  public outputs: Array<(ev: LogEvent<LogEventContext>) => void>
+  public outputs: LoggerOutput[]
 
   constructor (options?: LoggerOptions) {
     // Use default options.

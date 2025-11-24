@@ -3,7 +3,7 @@
  * Copyright (c) 2025 Karl STEIN
  */
 
-import { defaultFormatter } from './formatter'
+import { defaultFormatter, jsonFormatter } from './formatter'
 import levels, { DEBUG, ERROR, FATAL, INFO, WARN } from './levels'
 import Logger, { LoggerOptions } from './Logger'
 import consoleOutput from './outputs/consoleOutput'
@@ -16,6 +16,7 @@ export {
   WARN,
   consoleOutput,
   defaultFormatter,
+  jsonFormatter,
   levels,
   Logger,
   LoggerOptions

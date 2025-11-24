@@ -27,3 +27,18 @@ export function defaultFormatter (event: LogEvent<LogEventContext>): string {
   }
   return out
 }
+
+/**
+ * Formats an event to a JSON object.
+ * @param event
+ */
+export function jsonFormatter (event: LogEvent<LogEventContext>) {
+  const { context, level, logger, message, timestamp } = event
+  return JSON.stringify({
+    timestamp,
+    level,
+    logger,
+    message,
+    context: context != null && Object.keys(context).length > 0 ? context : undefined
+  }, jsonReplacer)
+}

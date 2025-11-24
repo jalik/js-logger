@@ -4,7 +4,7 @@
  */
 
 import { describe, expect, it } from 'vitest'
-import { getErrorDetails } from '../src/util'
+import { getErrorDetails, jsonReplacer } from '../src/util'
 
 describe('getErrorDetails()', () => {
   it('should return the error details', () => {
@@ -19,5 +19,13 @@ describe('getErrorDetails()', () => {
     const error = new Error()
     const details = getErrorDetails(error)
     expect(details.message).toBe('')
+  })
+})
+
+describe('jsonReplacer()', () => {
+  it('should replace Error instance with JSON object', () => {
+    const error = new Error('ERR')
+    const details = getErrorDetails(error)
+    expect(jsonReplacer('error', error)).toStrictEqual(details)
   })
 })

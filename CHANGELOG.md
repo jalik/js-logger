@@ -1,5 +1,11 @@
 # Changelog
 
+## v3.4.0 (2025-11-24)
+
+- feat: add jsonFormatter()
+- refactor: put context on a new line in defaultFormatter()
+- fix: handle Error instance passed in context
+
 ## v3.3.1 (2025-11-21)
 
 - deps: upgrade dependencies

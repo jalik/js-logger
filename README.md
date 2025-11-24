@@ -11,14 +11,13 @@ Easy and customizable logging for your apps.
 
 ## Features
 
-* Enabling/disabling logging anytime
-* Naming of the logger
-* Filtering of log events using a custom function
-* Support multiple outputs (works sequentially)
-* Customizing format of log events
-* Ability to pass a context for each log event
-* Ability to set a default context for log events
-* Use of standards logging levels (debug, info, warning, error, fatal)
+* Support of multiple outputs (console, file, custom...)
+* Set the logging level (debug, info, warning, error, fatal)
+* Enabling/disabling a logger during runtime
+* Set a default context for each logger
+* Pass any context to a logging event for technical details
+* Logging event filtering
+* Logging event formatting
 * TypeScript declarations ♥
 
 ## Sandbox
@@ -31,6 +30,7 @@ https://codesandbox.io/s/jalik-logger-default-example-75o5hx
 ```shell
 npm i -P @jalik/logger
 ```
+
 ```shell
 yarn add @jalik/logger
 ```
@@ -38,9 +38,9 @@ yarn add @jalik/logger
 ## Creating a logger
 
 ```js
-import { Logger } from '@jalik/logger';
+import { Logger } from '@jalik/logger'
 
-const logger = new Logger();
+const logger = new Logger()
 ```
 
 Which is equivalent to a production default setup:
@@ -48,8 +48,9 @@ Which is equivalent to a production default setup:
 ```js
 import {
   Logger,
-  INFO
-} from '@jalik/logger';
+  INFO,
+  consoleOutput
+} from '@jalik/logger'
 
 const logger = new Logger({
   // Enable the logger
@@ -57,13 +58,13 @@ const logger = new Logger({
   // Only log events with an INFO level or more
   level: INFO,
   // Set the name of this logger (auto-generated if not set)
-  name: 'logger_123456789',
+  name: 'main',
   // Set logging outputs
   outputs: [
     // Output logs to the console
     consoleOutput()
   ]
-});
+})
 ```
 
 ## Logging levels
@@ -86,7 +87,7 @@ import {
   WARN,
   ERROR,
   FATAL
-} from '@jalik/logger';
+} from '@jalik/logger'
 ```
 
 Or they can be imported as an array.
@@ -100,77 +101,77 @@ import { levels } from '@jalik/logger';
 ### `debug(message: string, context?: any)`
 
 ```js
-import { Logger } from '@jalik/logger';
+import { Logger } from '@jalik/logger'
 
-const logger = new Logger({ name: 'main' });
-const a = 2;
-const b = 4;
-const result = a + b;
+const logger = new Logger({ name: 'main' })
+const a = 2
+const b = 4
+const result = a + b
 
 // Logs a message with a context
-logger.debug(`result = ${result}`, { a, b });
+logger.debug(`result = ${result}`, { a, b })
 // or without context
-logger.debug(`result = ${result}`);
+logger.debug(`result = ${result}`)
 ```
 
 ### `info(message: string, context?: any)`
 
 ```js
-import { Logger } from '@jalik/logger';
+import { Logger } from '@jalik/logger'
 
-const logger = new Logger({ name: 'main' });
-const bootTime = 1337;
+const logger = new Logger({ name: 'main' })
+const bootTime = 133.7
 
 // Log the message with a context
-logger.info(`Application started in ${bootTime} ms`, { bootTime, tags: ['boot'] });
+logger.info(`Application started in ${bootTime} ms`, { bootTime, tags: ['boot'] })
 // or without context
-logger.info(`Application started in ${bootTime} ms`);
+logger.info(`Application started in ${bootTime} ms`)
 ```
 
 ### `warn(message: string, context?: any)`
 
 ```js
-import { Logger } from '@jalik/logger';
+import { Logger } from '@jalik/logger'
 
-const logger = new Logger({ name: 'main' });
-const diskUsage = 93.6;
+const logger = new Logger({ name: 'main' })
+const diskUsage = 93.6
 
 // Log the message with a context
-logger.warn('Disk usage is above 90%', { diskUsage });
+logger.warn('Disk usage is above 90%', { diskUsage })
 // or without context
-logger.warn('Disk usage is above 90%');
+logger.warn('Disk usage is above 90%')
 ```
 
 ### `error(message: string, context?: any)`
 
 ```js
-import { Logger } from '@jalik/logger';
+import { Logger } from '@jalik/logger'
 
-const logger = new Logger({ name: 'main' });
-const error = new Error('Forbidden');
+const logger = new Logger({ name: 'main' })
+const error = new Error('Forbidden')
 
 // Log the message with a context
-logger.error('Forbidden', { error });
+logger.error('Forbidden', { error })
 // or without context
-logger.error('Forbidden');
-// or simply (it will use error.message)
-logger.error(error);
+logger.error('Forbidden')
+// or pass the error object directly
+logger.error(error)
 ```
 
 ### `fatal(message: string, context?: any)`
 
 ```js
-import { Logger } from '@jalik/logger';
+import { Logger } from '@jalik/logger'
 
-const logger = new Logger({ name: 'main' });
-const error = new Error('app crashed');
+const logger = new Logger({ name: 'main' })
+const error = new Error('app crashed')
 
 // Log the message with a context
-logger.fatal('app crashed', { error });
+logger.fatal('app crashed', { error })
 // or without context
-logger.fatal('app crashed');
-// or simply (it will use error.message)
-logger.fatal(error);
+logger.fatal('app crashed')
+// or pass the error object directly
+logger.fatal(error)
 ```
 
 ### `log(level: string, message: string, context?: any)`
@@ -181,13 +182,13 @@ This is the "low level" function called by other logging functions.
 import {
   Logger,
   INFO
-} from '@jalik/logger';
+} from '@jalik/logger'
 
-const logger = new Logger({ name: 'main' });
-const ipAddress = '6.6.6.6';
+const logger = new Logger({ name: 'main' })
+const ipAddress = '6.6.6.6'
 
 // Logs an informational message with a context.
-logger.log(INFO, `The IP address ${ipAddress} has failed to login 3 times`, { ipAddress });
+logger.log(INFO, `The IP address ${ipAddress} has failed to login 3 times`, { ipAddress })
 ```
 
 ## Enabling or disabling logging
@@ -198,22 +199,16 @@ change logging status at anytime with the `setActive(boolean)` method.
 ### `setActive(boolean)`
 
 ```js
-import { Logger } from '@jalik/logger';
+import { Logger } from '@jalik/logger'
 
-const logger = new Logger({
-  // Enable logger on production environment only.
-  active: process.env.NODE_ENV === 'PRODUCTION'
-});
+const logger = new Logger({ name: 'main' })
 
-// To check if the logger is active.
-logger.isActive();
-
-// Disable logger after 30 seconds.
 setTimeout(() => {
-  // Anything that is logged after this line will be ignored.
-  logger.setActive(false);
-  logger.info('Sky is blue');
-}, 30000)
+  logger.setActive(false)
+  logger.info('this message will be ignored')
+  logger.setActive(true)
+  logger.info('this message will not be ignored')
+}, 3000)
 ```
 
 ### `isActive(): boolean`
@@ -226,19 +221,21 @@ It is possible to set `defaultContext` when creating the logger.
 This context will be passed to all log events and may be overridden for each log.
 
 ```js
-import { Logger } from '@jalik/logger';
+import { Logger } from '@jalik/logger'
 
 const logger = new Logger({
   defaultContext: {
+    pid: process.env.pid,
     host: process.env.HOST
   }
-});
+})
 
 // then logging a message will automatically use the default context.
-logger.info('Application started.');
+logger.info('Application started.')
 
-// you can even add a context over a default context (attributes will be merged and/or replaced).
-logger.info('Something happened', { tag: 'something-event' });
+// you can even add a context over a default context (attributes will be merged
+// and/or replaced).
+logger.info('Something happened', { tag: 'something-event' })
 ```
 
 ## Filtering log events
@@ -249,22 +246,22 @@ You can filter the logs that are processed by using the `filter` option when cre
 import {
   DEBUG,
   Logger
-} from '@jalik/logger';
+} from '@jalik/logger'
 
 const cronFilter = (event) => {
-  return (event.context && event.context.tag === 'cron') || /cron/g.test(event.message)
+  return (event.context && event.context?.tag === 'cron') || /cron/g.test(event.message)
 }
 
 const logger = new Logger({
   level: DEBUG,
   filter: cronFilter
-});
+})
 
 // this will be logged.
-logger.info('Cron jobs executed.', { tag: 'cron' });
+logger.info('Cron jobs executed.', { tag: 'cron' })
 
 // this will not be logged.
-logger.info('Application started.');
+logger.info('Application started.')
 ```
 
 ## Logging outputs
@@ -280,21 +277,22 @@ The console output displays logs in the console (browser and nodejs).
 import {
   Logger,
   consoleOutput
-} from '@jalik/logger';
+} from '@jalik/logger'
 
 const logger = new Logger({
   name: 'main',
   outputs: [
-    consoleOutput(),
-  ],
-});
+    consoleOutput()
+  ]
+})
 
-logger.info('Hello World', { number: 42 });
-// will log:
-// 2021-05-27T02:40:06.957Z INFO [main] : Hello World ; {"number":42}
+logger.info('Hello World', { number: 42 })
+// 2021-05-27T02:40:06.957Z INFO [main]: Hello World
+// {"number":42}
 ```
 
-By default, `consoleOutput()` uses the `defaultFormatter()` function to format log events, but you can provide your own formatter.
+By default, `consoleOutput()` uses the `defaultFormatter()` function to format log events, but you
+can provide your own formatter.
 
 ```js
 import {
@@ -302,8 +300,7 @@ import {
   consoleOutput,
 } from '@jalik/logger';
 
-function customFormatter(event) {
-  // format: "LEVEL [LOGGER] : MESSAGE"
+function simpleFormatter (event) {
   const { level, logger, message } = event;
   return [level.toUpperCase(), `[${logger}]`, ':', message].join(' ');
 }
@@ -311,12 +308,13 @@ function customFormatter(event) {
 const logger = new Logger({
   name: 'main',
   outputs: [
-    consoleOutput({ formatter: customFormatter }),
+    consoleOutput({
+      formatter: simpleFormatter
+    }),
   ],
 });
 
 logger.info('Hello World', { number: 42 });
-// will log:
 // INFO [main] : Hello World
 ```
 
@@ -325,8 +323,8 @@ logger.info('Hello World', { number: 42 });
 The file output writes log events to a file, so it can only be used on NodeJS.
 
 ```js
-import {  Logger,} from '@jalik/logger';
-import { fileOutput } from '@jalik/logger';
+import { Logger } from '@jalik/logger'
+import { fileOutput } from '@jalik/logger'
 
 const logger = new Logger({
   name: 'main',
@@ -339,13 +337,13 @@ const logger = new Logger({
       // improve performances by flushing (writing) logs at interval
       // instead of writing logs every time
       flushInterval: 1000
-    }),
-  ],
-});
+    })
+  ]
+})
 
-logger.info('Hello World', { number: 42 });
-// will log:
-// {"timestamp":1682982410055,"level":"INFO","logger":"main","message":"Hello World","context":{"number":42}}
+logger.info('Hello World', { number: 42 })
+// {"timestamp":1682982410055,"level":"INFO","logger":"main","message":"Hello
+// World","context":{"number":42}}
 ```
 
 ## Changelog

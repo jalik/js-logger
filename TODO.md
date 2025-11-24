@@ -1,5 +1,7 @@
 # BUGS
 
-- Escape HTML tags passed into log() method
+- fix: escape HTML tags passed into log() method
 
 # FEATURES
+
+- feat: add `silent` logging level

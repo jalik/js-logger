@@ -1,6 +1,6 @@
 /*
  * The MIT License (MIT)
- * Copyright (c) 2023 Karl STEIN
+ * Copyright (c) 2025 Karl STEIN
  */
 
 /**
@@ -13,4 +13,16 @@ export function getErrorDetails (error: Error): Partial<Error> {
     message: error.message,
     stack: error.stack
   }
+}
+
+/**
+ * Replaces specific values during JSON stringification.
+ * @param _key
+ * @param value
+ */
+export function jsonReplacer (_key: string, value: unknown): unknown {
+  if (value instanceof Error) {
+    return getErrorDetails(value)
+  }
+  return value
 }

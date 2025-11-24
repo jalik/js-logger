@@ -20,10 +20,10 @@ export function defaultFormatter (event: LogEvent<LogEventContext>): string {
     timestamp
   } = event
 
-  let out = `${new Date(timestamp).toISOString()} ${level.toUpperCase()} [${logger}] : ${message}`
+  let out = `${new Date(timestamp).toISOString()} ${level.toUpperCase()} [${logger}]: ${message}`
 
   if (context != null && Object.keys(context).length > 0) {
-    out += ` ; ${JSON.stringify(context, jsonReplacer)}`
+    out += `\n${JSON.stringify(context, jsonReplacer, 2)}`
   }
   return out
 }

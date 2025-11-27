@@ -1,8 +1,12 @@
 # Changelog
 
+## v3.4.2 (2025-11-27)
+
+- fix: show the error stack when an error is passed to logger.fatal()
+
 ## v3.4.1 (2025-11-27)
 
-- refactor: show the error stack when an error is passed to logger.error() or logger.fatal()
+- refactor: show the error stack when an error is passed to logger.error()
 
 ## v3.4.0 (2025-11-24)
 

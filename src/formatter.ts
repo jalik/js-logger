@@ -22,7 +22,7 @@ export function defaultFormatter (event: LogEvent<LogEventContext>): string {
 
   let out = `${new Date(timestamp).toISOString()} ${level.toUpperCase()} [${logger}]: `
 
-  if (event.level === 'error' && event.context?.error?.stack != null) {
+  if ((event.level === 'error' || event.level === 'fatal') && event.context?.error?.stack != null) {
     // Show the error stack when available.
     out += event.context.error.stack
   } else {

@@ -4,7 +4,7 @@
  */
 
 import { describe, expect, it } from 'vitest'
-import { defaultFormatter, ERROR, INFO, jsonFormatter } from '../src'
+import { defaultFormatter, ERROR, FATAL, INFO, jsonFormatter } from '../src'
 import { LogEvent, LogEventContext } from '../src/event'
 import { jsonReplacer } from '../src/util'
 
@@ -37,19 +37,26 @@ describe('defaultFormatter(event)', () => {
   })
 
   describe('with context', () => {
-    const { level, message, logger, timestamp } = eventWithContext
+    const { context, level, message, logger, timestamp } = eventWithContext
     it('should return formatted event with context', () => {
-      const { context } = eventWithContext
       expect(defaultFormatter(eventWithContext))
         .toBe(`${new Date(timestamp).toISOString()} ${level.toUpperCase()} [${logger}]: ${message}\n${JSON.stringify(context, jsonReplacer, 2)}`)
     })
   })
 
-  describe('with error in context', () => {
-    const { level, logger, timestamp } = eventWithError
+  describe('with error level and error in context', () => {
+    const { level, logger, timestamp, context } = eventWithError
     it('should return error stack', () => {
-      const { context } = eventWithError
       expect(defaultFormatter(eventWithError))
+        .toBe(`${new Date(timestamp).toISOString()} ${level.toUpperCase()} [${logger}]: ${context.error.stack}`)
+    })
+  })
+
+  describe('with fatal level and error in context', () => {
+    const event = { ...eventWithError, level: FATAL }
+    const { level, logger, timestamp, context } = event
+    it('should return error stack', () => {
+      expect(defaultFormatter(event))
         .toBe(`${new Date(timestamp).toISOString()} ${level.toUpperCase()} [${logger}]: ${context.error.stack}`)
     })
   })
@@ -57,8 +64,8 @@ describe('defaultFormatter(event)', () => {
 
 describe('jsonFormatter(event)', () => {
   describe('without context', () => {
+    const { level, message, logger, timestamp } = event
     it('should return formatted event without context', () => {
-      const { level, message, logger, timestamp } = event
       expect(jsonFormatter(event))
         .toBe(JSON.stringify({
           timestamp,
@@ -70,8 +77,8 @@ describe('jsonFormatter(event)', () => {
   })
 
   describe('with empty context', () => {
+    const { level, message, logger, timestamp } = eventWithEmptyContext
     it('should return formatted event without context', () => {
-      const { level, message, logger, timestamp } = eventWithEmptyContext
       expect(jsonFormatter(eventWithEmptyContext))
         .toBe(JSON.stringify({
           timestamp,
@@ -83,9 +90,8 @@ describe('jsonFormatter(event)', () => {
   })
 
   describe('with context', () => {
+    const { context, level, message, logger, timestamp } = eventWithContext
     it('should return formatted event with context', () => {
-      const { level, message, logger, timestamp } = eventWithContext
-      const { context } = eventWithContext
       expect(jsonFormatter(eventWithContext))
         .toBe(JSON.stringify({
           timestamp,

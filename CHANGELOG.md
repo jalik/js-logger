@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.4.3 (2026-05-25)
+
+- deps: upgrade dependencies
+
 ## v3.4.2 (2025-11-27)
 
 - fix: show the error stack when an error is passed to logger.fatal()
